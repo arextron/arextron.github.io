@@ -11,10 +11,10 @@
     :root {
       --accent: #88c9bf;
       --text: #2e2e2e;
-      --bg-about: #e9f5f2;
-      --bg-skills: #f3f1f6;
-      --bg-projects: #fef6f2;
-      --bg-contact: #f2f8fc;
+      --bg-about: #f8f9fa;
+      --bg-skills: #f7f7f7;
+      --bg-projects: #f5f5f5;
+      --bg-contact: #f4f4f4;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -29,11 +29,11 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
       backdrop-filter: blur(6px);
       padding: 1rem 2rem;
       z-index: 1000;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
     }
     nav ul {
       display: flex;
@@ -50,7 +50,7 @@
 
     .hero {
       height: 100vh;
-      background: linear-gradient(135deg, #f5f5f5, #e9f0ed);
+      background: #f9f9f9;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -74,9 +74,7 @@
     @keyframes typing { from { width: 0; } to { width: 100%; } }
     @keyframes blink { 50% { border-color: transparent; } }
 
-    main {
-      padding-top: 80px;
-    }
+    main { padding-top: 80px; }
     section {
       min-height: 80vh;
       padding: 4rem 2rem;
@@ -112,8 +110,8 @@
       justify-content: center;
     }
     .skills-list span {
-      background: #fff;
-      border: 2px solid var(--accent);
+      background: #ffffff;
+      border: 1px solid var(--accent);
       padding: 0.5rem 1rem;
       border-radius: 999px;
       transition: 0.3s;
@@ -132,13 +130,13 @@
       background: #ffffff;
       padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
     }
     .card:hover {
-      transform: scale(1.03) translateY(-8px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transform: scale(1.02) translateY(-4px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
     }
     .card h3 {
       color: var(--accent);
@@ -161,7 +159,7 @@
     footer {
       text-align: center;
       padding: 2rem;
-      background: #f1f1f1;
+      background: #f9f9f9;
       color: var(--text);
     }
   </style>
