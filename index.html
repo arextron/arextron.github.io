@@ -15,6 +15,9 @@
       --bg-skills: #f3e5f5;
       --bg-projects: #fff3e0;
       --bg-contact: #e8f5e9;
+      --chat-bg: #ffffff;
+      --chat-text: #333333;
+      --chat-accent: #4ea8a1;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -25,200 +28,103 @@
     a { color: var(--accent); text-decoration: none; transition: 0.3s; }
     a:hover { color: #000; }
 
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: #ffffff;
-      backdrop-filter: blur(6px);
-      padding: 1rem 2rem;
-      z-index: 1000;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    /* Chat widget styles */
+    .chat-toggle {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 50%; width: 60px; height: 60px;
+      font-size: 2rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
-    nav ul {
-      display: flex;
-      justify-content: flex-end;
-      gap: 2rem;
+    .chat-window {
+      position: fixed; bottom: 80px; right: 2rem;
+      width: 320px; height: 400px; background: var(--chat-bg);
+      border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      display: flex; flex-direction: column; overflow: hidden;
+      transform: translateY(20px); opacity: 0; transition: 0.3s;
     }
-    nav a {
-      font-weight: 600;
-      color: var(--text);
-    }
-    nav a:hover {
-      color: var(--accent);
-    }
+    .chat-window.open { transform: translateY(0); opacity: 1; }
+    .chat-header { background: var(--accent); color: #fff; padding: 0.75rem; font-weight: 600; }
+    .chat-messages { flex: 1; padding: 0.5rem; overflow-y: auto; }
+    .chat-input { display: flex; border-top: 1px solid #ddd; }
+    .chat-input input { flex: 1; border: none; padding: 0.75rem; font-size: 1rem; }
+    .chat-input button { border: none; background: var(--chat-accent); color: #fff; padding: 0 1rem; cursor: pointer; }
+    .message { margin-bottom: 0.5rem; }
+    .message.user { text-align: right; }
+    .message.bot { text-align: left; }
 
-    .hero {
-      height: 100vh;
-      background: #eceff1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-    .hero p {
-      font-size: 1.25rem;
-      color: var(--accent);
-      height: 1.5em;
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid var(--accent);
-      animation: typing 4s steps(40,end), blink .8s infinite;
-    }
-    @keyframes typing { from { width: 0; } to { width: 100%; } }
-    @keyframes blink { 50% { border-color: transparent; } }
-
-    main { padding-top: 80px; }
-    section {
-      min-height: 80vh;
-      padding: 4rem 2rem;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: 0.6s ease-out;
-    }
-    section.in-view {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    h2 {
-      font-size: 2.25rem;
-      margin-bottom: 1rem;
-      color: var(--accent);
-      text-align: center;
-    }
-    p {
-      max-width: 700px;
-      margin: 1rem auto;
-      line-height: 1.6;
-    }
-
+    nav, .hero, section, footer { transition: background 0.3s; }
+    nav, footer { background: #ffffff; }
+    .hero { background: #eceff1; }
     #about { background: var(--bg-about); }
     #skills { background: var(--bg-skills); }
     #projects { background: var(--bg-projects); }
     #contact { background: var(--bg-contact); }
-
-    .skills-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-    }
-    .skills-list span {
-      background: #ffffff;
-      border: 1px solid var(--accent);
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      transition: 0.3s;
-    }
-    .skills-list span:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      background: #ffffff;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-    }
-    .card:hover {
-      transform: scale(1.02) translateY(-4px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    }
-    .card h3 {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-
-    .contact a.cta {
-      background: var(--accent);
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      display: inline-block;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-    .contact a.cta:hover {
-      background: #3d8f88;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: #eceff1;
-      color: var(--text);
-    }
   </style>
 </head>
 <body>
-  <nav>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+  <nav>...<!-- existing nav -->
   </nav>
-  <header class="hero" id="hero">
-    <h1>👋 Hi, I'm Aryan Awasthi</h1>
-    <p>AI Engineer • ML Developer • Innovator</p>
+  <header class="hero" id="hero">...<!-- existing hero -->
   </header>
 
   <main>
-    <section id="about">
-      <h2>🚀 About Me</h2>
-      <p>I’m a Master’s student at Concordia University passionate about building scalable, intelligent systems in AI and ML. With experience in LLMs, Reinforcement Learning, and Cloud MLOps, I deliver real-world AI solutions that drive impact.</p>
-    </section>
-
-    <section id="skills">
-      <h2>🧠 Skills</h2>
-      <div class="skills-list">
-        <span>Python</span><span>Java</span><span>Scala</span><span>TensorFlow</span><span>PyTorch</span>
-        <span>LangChain</span><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>FAISS</span>
-      </div>
-    </section>
-
-    <section id="projects">
-      <h2>🛠 Projects</h2>
-      <div class="project-grid">
-        <div class="card"><h3>Multi-Agent LLM Chatbot (RLHF)</h3><p>A LangChain-based chatbot with 92% routing accuracy, RL-based feedback, and real-time analytics via Streamlit.</p></div>
-        <div class="card"><h3>TubeLytics v2</h3><p>Real-time YouTube analytics with Akka Actors & WebSockets, cutting API calls by 60% and enriching insights.</p></div>
-        <div class="card"><h3>OpenTracks - Sport Tracker</h3><p>Android tracker enhanced with UI stats module and audio feedback on slope/elevation.</p></div>
-      </div>
-    </section>
-
-    <section id="contact">
-      <h2>📫 Contact</h2>
-      <p>Email: <a href="mailto:aryanbvp.09@gmail.com">aryanbvp.09@gmail.com</a></p>
-      <p>GitHub: <a href="https://github.com/arextron" target="_blank">github.com/arextron</a></p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/aryan-awasthi-92353795" target="_blank">linkedin.com/in/aryan-awasthi</a></p>
-      <p><a class="cta" href="Aryan_Awasthi_v5_6_1.pdf" download>📄 Download Resume</a></p>
-    </section>
+    ...<!-- existing sections -->
   </main>
 
-  <footer>
-    <p>&copy; 2025 Aryan Awasthi. Crafted with passion and code.</p>
-  </footer>
+  <footer>...<!-- existing footer --></footer>
+
+  <!-- Chat widget -->
+  <button class="chat-toggle" id="chatToggle">💬</button>
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">Ask me anything</div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your question..." />
+      <button id="chatSend">Send</button>
+    </div>
+  </div>
 
   <script>
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => e.isIntersecting && e.target.classList.add('in-view'));
-    }, { threshold: 0.2 });
-    document.querySelectorAll('section').forEach(s => obs.observe(s));
+    // Toggle chat
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    chatToggle.addEventListener('click', () => chatWindow.classList.toggle('open'));
+
+    // Section keywords
+    const sections = ['about','skills','projects','contact'];
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+
+    document.getElementById('chatSend').addEventListener('click', async () => {
+      const question = chatInput.value.trim();
+      if (!question) return;
+      appendMessage(question, 'user');
+
+      // simple section detection
+      const lower = question.toLowerCase();
+      const matched = sections.find(s => lower.includes(s));
+      if (matched) {
+        appendMessage('Scrolling to ' + matched + ' section...', 'bot');
+        document.getElementById(matched).scrollIntoView({behavior:'smooth'});
+      } else {
+        appendMessage('Let me check that...', 'bot');
+        // call LLM backend (placeholder)
+        const response = await fetch('/api/answer', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({question})
+        }).then(res=>res.json());
+        appendMessage(response.answer, 'bot');
+      }
+      chatInput.value = '';
+    });
+
+    function appendMessage(text, sender) {
+      const div = document.createElement('div');
+      div.className = 'message ' + sender;
+      div.textContent = text;
+      chatMessages.appendChild(div);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   </script>
 </body>
 </html>
