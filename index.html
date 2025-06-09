@@ -7,13 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     :root {
-      --pastel-blue: #a3cef1;
-      --pastel-pink: #f9c6d3;
-      --pastel-green: #b8e2c8;
-      --pastel-purple: #d7c2f2;
-      --pastel-yellow: #fff3b0;
-      --text-color: #2d2d2d;
+      --pastel-blue: #2e3b4e;
+      --pastel-pink: #3e2f3f;
+      --pastel-green: #2f3e36;
+      --pastel-purple: #3b2f4a;
+      --pastel-yellow: #3f3c2f;
+      --text-color: #f0f0f0;
       --accent: #88c9bf;
     }
 
@@ -27,6 +30,7 @@
       background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink), var(--pastel-green));
       color: var(--text-color);
       line-height: 1.6;
+      overflow-x: hidden;
     }
     a {
       color: var(--accent);
@@ -34,12 +38,14 @@
       transition: 0.3s;
     }
     a:hover {
-      color: #000;
+      color: #fff;
     }
     header.hero {
       text-align: center;
       padding: 6rem 2rem 3rem;
       background: linear-gradient(135deg, var(--pastel-purple), var(--pastel-yellow));
+      transform: translateZ(0);
+      will-change: transform;
     }
     header.hero h1 {
       font-size: 2.75rem;
@@ -50,7 +56,7 @@
     header.hero p {
       font-size: 1.25rem;
       margin-bottom: 1.5rem;
-      color: #555;
+      color: #ccc;
       animation: fadeIn 2.5s ease-in-out;
     }
     .cta {
@@ -75,6 +81,7 @@
     section {
       margin-bottom: 3rem;
       animation: fadeInUp 1s ease forwards;
+      will-change: transform, opacity;
     }
     h2 {
       font-size: 2rem;
@@ -87,16 +94,17 @@
       gap: 2rem;
     }
     .card {
-      background: linear-gradient(135deg, #ffffffaa, #ffffff88);
+      background: linear-gradient(135deg, #1a1a1a, #2b2b2b);
       backdrop-filter: blur(6px);
       border-radius: 12px;
       padding: 1.5rem;
-      border: 1px solid #ddd;
+      border: 1px solid #444;
       transition: transform 0.3s ease, background 0.3s;
       cursor: pointer;
+      will-change: transform;
     }
     .card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-8px) scale(1.02);
       background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-purple));
     }
     .card h3 {
@@ -106,9 +114,9 @@
     footer {
       text-align: center;
       padding: 2rem 1rem;
-      border-top: 1px solid #ccc;
+      border-top: 1px solid #333;
       background: linear-gradient(to right, var(--pastel-green), var(--pastel-blue));
-      color: #444;
+      color: #aaa;
     }
     .skills-list {
       display: flex;
@@ -116,7 +124,7 @@
       gap: 0.5rem;
     }
     .skills-list span {
-      background: #ffffffcc;
+      background: #222;
       border: 1px solid var(--accent);
       padding: 0.4rem 0.75rem;
       border-radius: 999px;
@@ -125,7 +133,7 @@
     }
     .skills-list span:hover {
       background: var(--accent);
-      color: #fff;
+      color: #000;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
