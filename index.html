@@ -9,12 +9,12 @@
     html { scroll-behavior: smooth; }
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --accent: #50d1e5;
+      --accent: #4ea8a1;
       --text: #2e2e2e;
-      --bg-about: #f8f9fa;
-      --bg-skills: #f7f7f7;
-      --bg-projects: #f5f5f5;
-      --bg-contact: #f4f4f4;
+      --bg-about: #e1ecf4;
+      --bg-skills: #f3e5f5;
+      --bg-projects: #fff3e0;
+      --bg-contact: #e8f5e9;
     }
     body {
       font-family: 'Inter', sans-serif;
@@ -29,11 +29,11 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: #5b32d6;
+      background: #ffffff;
       backdrop-filter: blur(6px);
       padding: 1rem 2rem;
       z-index: 1000;
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
     }
     nav ul {
       display: flex;
@@ -50,7 +50,7 @@
 
     .hero {
       height: 100vh;
-      background: #f9f9f9;
+      background: #eceff1;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -130,13 +130,13 @@
       background: #ffffff;
       padding: 1.5rem;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       transition: transform 0.3s, box-shadow 0.3s;
       cursor: pointer;
     }
     .card:hover {
       transform: scale(1.02) translateY(-4px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     }
     .card h3 {
       color: var(--accent);
@@ -153,13 +153,13 @@
       transition: 0.3s;
     }
     .contact a.cta:hover {
-      background: #5fa79f;
+      background: #3d8f88;
     }
 
     footer {
       text-align: center;
       padding: 2rem;
-      background: #f9f9f9;
+      background: #eceff1;
       color: var(--text);
     }
   </style>
