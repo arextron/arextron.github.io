@@ -5,199 +5,129 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aryan Awasthi | AI Engineer Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
   <style>
-    html {
-      scroll-behavior: smooth;
-    }
+    /* GLOBAL */
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --pastel-blue: #2e3b4e;
-      --pastel-pink: #3e2f3f;
-      --pastel-green: #2f3e36;
-      --pastel-purple: #3b2f4a;
-      --pastel-yellow: #3f3c2f;
-      --text-color: #f0f0f0;
-      --accent: #88c9bf;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --bg1: #2e3b4e; --bg2: #3e2f3f; --bg3: #2f3e36;
+      --accent: #88c9bf; --text: #f0f0f0; --fade-duration: 0.6s;
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink), var(--pastel-green));
-      color: var(--text-color);
-      line-height: 1.6;
-      overflow-x: hidden;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      color: var(--text); overflow-x:hidden;
     }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: 0.3s;
+    a { color:var(--accent); text-decoration:none; transition:0.3s;}  a:hover { color:#fff; }
+
+    /* NAVIGATION */
+    nav { position:fixed; top:0; width:100%; background:rgba(10,10,10,0.7); backdrop-filter: blur(5px); padding:1rem 2rem; z-index:1000; }
+    nav ul { display:flex; justify-content:flex-end; gap:2rem; }
+    nav a { font-weight:600; }
+
+    /* HERO WITH PARALLAX */
+    .hero {
+      position:relative; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      background: url('https://source.unsplash.com/1600x900/?technology,abstract') center/cover no-repeat fixed;
+      text-align:center; overflow:hidden;
     }
-    a:hover {
-      color: #fff;
-    }
-    header.hero {
-      text-align: center;
-      padding: 6rem 2rem 3rem;
-      background: linear-gradient(135deg, var(--pastel-purple), var(--pastel-yellow));
-      transform: translateZ(0);
-      will-change: transform;
-    }
-    header.hero h1 {
-      font-size: 2.75rem;
-      font-weight: 800;
-      margin-bottom: 1rem;
-      animation: fadeIn 2s ease-in-out;
-    }
-    header.hero p {
-      font-size: 1.25rem;
-      margin-bottom: 1.5rem;
-      color: #ccc;
-      animation: fadeIn 2.5s ease-in-out;
-    }
-    .cta {
-      display: inline-block;
-      background: var(--accent);
-      color: #000;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: 0.3s;
-      animation: fadeIn 3s ease-in-out;
-    }
-    .cta:hover {
-      background: #aee6da;
-      transform: scale(1.05);
-    }
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 2rem;
-    }
-    section {
-      margin-bottom: 3rem;
-      animation: fadeInUp 1s ease forwards;
-      will-change: transform, opacity;
-    }
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: var(--accent);
-    }
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-    .card {
-      background: linear-gradient(135deg, #1a1a1a, #2b2b2b);
-      backdrop-filter: blur(6px);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid #444;
-      transition: transform 0.3s ease, background 0.3s;
-      cursor: pointer;
-      will-change: transform;
-    }
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-purple));
-    }
-    .card h3 {
-      color: var(--accent);
-      margin-bottom: 0.5rem;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      border-top: 1px solid #333;
-      background: linear-gradient(to right, var(--pastel-green), var(--pastel-blue));
-      color: #aaa;
-    }
-    .skills-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .skills-list span {
-      background: #222;
-      border: 1px solid var(--accent);
-      padding: 0.4rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.875rem;
-      transition: all 0.3s;
-    }
-    .skills-list span:hover {
-      background: var(--accent);
-      color: #000;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .hero::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.6); }
+    .hero-content { position:relative; z-index:1; color:#fff; }
+    .hero h1 { font-size:3rem; margin-bottom:1rem; }
+    .hero p { font-size:1.25rem; height:1.5em; /* for typewriter */ overflow:hidden; white-space:nowrap; border-right:2px solid var(--accent); animation: typing 4s steps(40,end), blink .8s infinite; }
+    @keyframes typing { from { width:0; } to { width:100%; } }
+    @keyframes blink { 50% { border-color:transparent; } }
+
+    /* SECTIONS */
+    main { padding-top:80px; }
+    section { min-height:80vh; padding:4rem 2rem; opacity:0; transform:translateY(30px); transition:var(--fade-duration) ease-out; }
+    section.in-view { opacity:1; transform:translateY(0); }
+    h2 { font-size:2.25rem; margin-bottom:1rem; color:var(--accent); }
+    p { max-width:700px; margin:1rem auto; line-height:1.6; }
+
+    /* SKILLS */
+    .skills-list { display:flex; flex-wrap:wrap; gap:0.75rem; justify-content:center; }
+    .skills-list span { background:rgba(0,0,0,0.4); padding:0.5rem 1rem; border-radius:999px; transition:0.3s; }
+    .skills-list span:hover { background:var(--accent); color:#000; }
+
+    /* PROJECT CARDS */
+    .project-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
+    .card { background:rgba(20,20,20,0.6); padding:1.5rem; border-radius:12px; backdrop-filter:blur(4px);
+            transition:transform 0.3s; cursor:pointer; }
+    .card:hover { transform:scale(1.03) translateY(-10px); }
+    .card h3 { color:var(--accent); margin-bottom:0.5rem; }
+
+    /* CONTACT & FOOTER */
+    .contact a.cta { background:var(--accent); color:#000; padding:0.75rem 1.5rem; border-radius:8px; display:inline-block; }
+    footer { text-align:center; padding:2rem; background:rgba(10,10,10,0.8); }
+
   </style>
 </head>
 <body>
-  <header class="hero">
-    <h1>👋 Hi, I'm Aryan Awasthi</h1>
-    <p>AI Engineer | ML Developer | Intelligent System Specialist</p>
-    <a href="mailto:aryanbvp.09@gmail.com" class="cta">📧 Let's Connect</a>
+  <nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <h1>👋 Hi, I'm Aryan Awasthi</h1>
+      <p id="typed-text">AI Engineer • ML Developer • Innovator</p>
+    </div>
   </header>
 
   <main>
-    <section class="about">
+    <section id="about">
       <h2>🚀 About Me</h2>
-      <p>
-        I’m a Master’s student at Concordia University passionate about building scalable, intelligent systems in AI and ML. With experience in LLMs, Reinforcement Learning, and Cloud MLOps, I build real-world AI solutions that make an impact.
-      </p>
+      <p>I’m a Master’s student at Concordia University passionate about building scalable, intelligent systems in AI and ML. With experience in LLMs, Reinforcement Learning, and Cloud MLOps, I deliver real-world AI solutions that drive impact.</p>
     </section>
 
-    <section class="skills">
+    <section id="skills">
       <h2>🧠 Skills</h2>
       <div class="skills-list">
-        <span>Python</span><span>Java</span><span>Scala</span><span>TensorFlow</span><span>PyTorch</span><span>LangChain</span>
-        <span>FastAPI</span><span>Flask</span><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>FAISS</span>
-        <span>MLflow</span><span>GitHub Actions</span><span>Elasticsearch</span><span>gRPC</span><span>PostgreSQL</span>
+        <span>Python</span><span>Java</span><span>Scala</span><span>TensorFlow</span><span>PyTorch</span>
+        <span>LangChain</span><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>FAISS</span>
       </div>
     </section>
 
-    <section class="projects">
+    <section id="projects">
       <h2>🛠 Projects</h2>
       <div class="project-grid">
-        <div class="card">
-          <h3>Multi-Agent LLM Chatbot (RLHF)</h3>
-          <p>LangChain-based chatbot with 92% routing accuracy, RL-based feedback training, and real-time analytics using Streamlit.</p>
-        </div>
-        <div class="card">
-          <h3>TubeLytics v2</h3>
-          <p>Real-time YouTube analytics dashboard with Akka Actors and WebSockets, reducing API hits by 60% and enabling rich data insights.</p>
-        </div>
-        <div class="card">
-          <h3>OpenTracks - Sport Tracker</h3>
-          <p>Enhanced Android tracker with new UI stats module and real-time audio feedback on slope and elevation.</p>
-        </div>
+        <div class="card"><h3>Multi-Agent LLM Chatbot (RLHF)</h3><p>A LangChain-based chatbot with 92% routing accuracy, RL-based feedback, and real-time analytics via Streamlit.</p></div>
+        <div class="card"><h3>TubeLytics v2</h3><p>Real-time YouTube analytics with Akka Actors & WebSockets, cutting API calls by 60% and enriching insights.</p></div>
+        <div class="card"><h3>OpenTracks - Sport Tracker</h3><p>Android tracker enhanced with UI stats module and audio feedback on slope/elevation.</p></div>
       </div>
     </section>
 
-    <section class="contact">
+    <section id="contact">
       <h2>📫 Contact</h2>
       <p>Email: <a href="mailto:aryanbvp.09@gmail.com">aryanbvp.09@gmail.com</a></p>
       <p>GitHub: <a href="https://github.com/arextron" target="_blank">github.com/arextron</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/aryan-awasthi-92353795/" target="_blank">linkedin.com/in/aryan-awasthi</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/aryan-awasthi-92353795" target="_blank">linkedin.com/in/aryan-awasthi</a></p>
       <p><a class="cta" href="Aryan_Awasthi_v5_6_1.pdf" download>📄 Download Resume</a></p>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Aryan Awasthi. Designed with 💡 and AI spirit.</p>
+    <p>&copy; 2025 Aryan Awasthi. Crafted with passion and code.</p>
   </footer>
+
+  <script>
+    // IntersectionObserver for reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('in-view'));
+    }, { threshold:0.2 });
+    document.querySelectorAll('section').forEach(s => obs.observe(s));
+
+    // Parallax mousemove on hero
+    document.getElementById('hero').addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth) * 10;
+      const y = (e.clientY / window.innerHeight) * 10;
+      e.currentTarget.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    });
+  </script>
 </body>
 </html>
