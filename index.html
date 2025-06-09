@@ -7,6 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <style>
+    :root {
+      --pastel-blue: #a3cef1;
+      --pastel-pink: #f9c6d3;
+      --pastel-green: #b8e2c8;
+      --pastel-purple: #d7c2f2;
+      --pastel-yellow: #fff3b0;
+      --text-color: #2d2d2d;
+      --accent: #88c9bf;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -14,23 +24,22 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #e0e0e0;
+      background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink), var(--pastel-green));
+      color: var(--text-color);
       line-height: 1.6;
     }
     a {
-      color: #00ffff;
+      color: var(--accent);
       text-decoration: none;
       transition: 0.3s;
     }
     a:hover {
-      color: #66fcf1;
+      color: #000;
     }
     header.hero {
       text-align: center;
       padding: 6rem 2rem 3rem;
-      background: linear-gradient(135deg, #141e30, #243b55);
-      position: relative;
+      background: linear-gradient(135deg, var(--pastel-purple), var(--pastel-yellow));
     }
     header.hero h1 {
       font-size: 2.75rem;
@@ -41,12 +50,12 @@
     header.hero p {
       font-size: 1.25rem;
       margin-bottom: 1.5rem;
-      color: #c5c6c7;
+      color: #555;
       animation: fadeIn 2.5s ease-in-out;
     }
     .cta {
       display: inline-block;
-      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      background: var(--accent);
       color: #000;
       padding: 0.75rem 1.5rem;
       border-radius: 8px;
@@ -55,7 +64,7 @@
       animation: fadeIn 3s ease-in-out;
     }
     .cta:hover {
-      background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+      background: #aee6da;
       transform: scale(1.05);
     }
     main {
@@ -70,9 +79,7 @@
     h2 {
       font-size: 2rem;
       margin-bottom: 1rem;
-      background: linear-gradient(to right, #00ffff, #45a29e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent);
     }
     .project-grid {
       display: grid;
@@ -80,30 +87,28 @@
       gap: 2rem;
     }
     .card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1));
-      backdrop-filter: blur(8px);
+      background: linear-gradient(135deg, #ffffffaa, #ffffff88);
+      backdrop-filter: blur(6px);
       border-radius: 12px;
       padding: 1.5rem;
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid #ddd;
       transition: transform 0.3s ease, background 0.3s;
       cursor: pointer;
     }
     .card:hover {
       transform: translateY(-8px);
-      background: linear-gradient(135deg, #00c9ff22, #92fe9d22);
+      background: linear-gradient(135deg, var(--pastel-pink), var(--pastel-purple));
     }
     .card h3 {
-      background: linear-gradient(to right, #00ffff, #45a29e);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent);
       margin-bottom: 0.5rem;
     }
     footer {
       text-align: center;
       padding: 2rem 1rem;
-      border-top: 1px solid #333;
-      color: #888;
-      background: linear-gradient(to right, #141e30, #243b55);
+      border-top: 1px solid #ccc;
+      background: linear-gradient(to right, var(--pastel-green), var(--pastel-blue));
+      color: #444;
     }
     .skills-list {
       display: flex;
@@ -111,16 +116,16 @@
       gap: 0.5rem;
     }
     .skills-list span {
-      background: linear-gradient(to right, #1f2833, #0b0c10);
-      border: 1px solid #45a29e;
+      background: #ffffffcc;
+      border: 1px solid var(--accent);
       padding: 0.4rem 0.75rem;
       border-radius: 999px;
       font-size: 0.875rem;
       transition: all 0.3s;
     }
     .skills-list span:hover {
-      background: linear-gradient(to right, #45a29e, #00ffff);
-      color: #000;
+      background: var(--accent);
+      color: #fff;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -188,4 +193,3 @@
   </footer>
 </body>
 </html>
-
