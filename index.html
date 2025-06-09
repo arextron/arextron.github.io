@@ -36,11 +36,13 @@
       font-size: 2.75rem;
       font-weight: 800;
       margin-bottom: 1rem;
+      animation: fadeIn 2s ease-in-out;
     }
     header.hero p {
       font-size: 1.25rem;
       margin-bottom: 1.5rem;
       color: #c5c6c7;
+      animation: fadeIn 2.5s ease-in-out;
     }
     .cta {
       display: inline-block;
@@ -50,9 +52,11 @@
       border-radius: 8px;
       font-weight: bold;
       transition: 0.3s;
+      animation: fadeIn 3s ease-in-out;
     }
     .cta:hover {
       background: #66fcf1;
+      transform: scale(1.05);
     }
     main {
       max-width: 1100px;
@@ -61,6 +65,7 @@
     }
     section {
       margin-bottom: 3rem;
+      animation: fadeInUp 1s ease forwards;
     }
     h2 {
       font-size: 2rem;
@@ -78,10 +83,12 @@
       border-radius: 12px;
       padding: 1.5rem;
       border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s;
+      cursor: pointer;
     }
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-8px);
+      background: rgba(0,255,255,0.05);
     }
     .card h3 {
       color: #00ffff;
@@ -105,6 +112,19 @@
       padding: 0.4rem 0.75rem;
       border-radius: 999px;
       font-size: 0.875rem;
+      transition: all 0.3s;
+    }
+    .skills-list span:hover {
+      background: #45a29e;
+      color: #000;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -146,14 +166,6 @@
         <div class="card">
           <h3>OpenTracks - Sport Tracker</h3>
           <p>Enhanced Android tracker with new UI stats module and real-time audio feedback on slope and elevation.</p>
-        </div>
-        <div class="card">
-          <h3>ATS Resume Ranker</h3>
-          <p>AI system ranking resumes against job descriptions using embeddings, cosine similarity, and ML classifiers.</p>
-        </div>
-        <div class="card">
-          <h3>LinkedIn AutoApply Bot</h3>
-          <p>Job application agent using LLaMA3 + Selenium to apply at scale with ranking via FAISS vector search.</p>
         </div>
       </div>
     </section>
