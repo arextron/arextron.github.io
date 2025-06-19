@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: true, // Reflects the request's Origin header automatically
+  origin: "https://arextron.github.io",// Reflects the request's Origin header automatically
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
