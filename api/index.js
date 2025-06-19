@@ -22,12 +22,11 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: "https://arextron.github.io",// Reflects the request's Origin header automatically
+  origin: "https://arextron.github.io",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
 }));
-
 app.use(express.json());
 
 // Global variable for resume text
