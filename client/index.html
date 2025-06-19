@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aryan Awasthi | AI Engineer Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --accent: #88c9bf;
+      --text: #2e2e2e;
+      --bg-hero: #f9f9f9;
+      --bg-about: #f0f2f4;
+      --bg-skills: #e8f0ee;
+      --bg-projects: #f2edea;
+      --bg-contact: #e7ecf4;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    nav ul { display: flex; justify-content: flex-end; gap: 2rem; }
+    nav a { font-weight: 600; color: var(--text); text-decoration: none; }
+    nav a:hover { color: var(--accent); }
+
+  .hero {
+    background: var(--bg-hero);
+    /* remove full-viewport height so sections appear immediately below */
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+    .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+    .hero p {
+      font-size: 1.25rem; color: var(--accent);
+      height: 1.5em; overflow: hidden; white-space: nowrap;
+      border-right: 2px solid var(--accent);
+      animation: typing 4s steps(40,end), blink .8s infinite;
+    }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* Chat widget inside hero */
+    #chat-widget {
+      width: 100%; max-width: 600px;
+      margin-top: 2rem; background: #fff;
+      border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      overflow: hidden; border: 1px solid #ddd;
+      display: flex; flex-direction: column;
+    }
+    #chat-messages {
+      flex-grow: 1; max-height: 250px;
+      overflow-y: auto; padding: 1rem;
+    }
+    .message { margin-bottom: 0.75rem; }
+    .message.user { text-align: right; }
+    .message.bot  { text-align: left; }
+    .message span {
+      display: inline-block; padding: 0.5rem 0.75rem;
+      border-radius: 8px; max-width: 80%;
+    }
+    .message.user span { background: var(--accent); color: #fff; }
+    .message.bot  span { background: #f1f1f1; color: var(--text); }
+
+    #chat-input {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem; background: #f7f9fb;
+      border-top: 1px solid #e1e1e1; border-radius: 0 0 12px 12px;
+    }
+    #chat-input input {
+      flex: 1; padding: 0.75rem 1rem; border: 1px solid #ccc;
+      border-radius: 999px; font-size: 1rem; outline: none;
+      transition: border 0.2s ease; background: #fff;
+    }
+    #chat-input input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(136,201,191,0.2);
+    }
+    #chat-input button {
+      padding: 0.6rem 1.25rem; border: none;
+      border-radius: 999px; background: var(--accent);
+      color: #fff; font-weight: 600; font-size: 1.1rem;
+      cursor: pointer; transition: background 0.2s ease;
+    }
+    #chat-input button:hover { background: #5fa79f; }
+/* Remove fixed nav styles! */
+
+.hero-nav {
+  margin-top: 2rem;
+  text-align: center;
+}
+.hero-nav ul {
+  display: inline-flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+}
+.hero-nav a {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+.hero-nav a:hover {
+  color: var(--accent);
+}
+
+
+
+    main { }
+    section {
+      min-height: 80vh; padding: 4rem 2rem;
+      opacity: 0; transform: translateY(30px);
+      transition: 0.6s ease-out;
+    }
+    section.in-view { opacity: 1; transform: translateY(0); }
+    h2 { font-size: 2.25rem; margin-bottom: 1rem; color: var(--accent); text-align: center; }
+    p { max-width: 700px; margin: 1rem auto; line-height: 1.6; }
+    #about    { background: var(--bg-about); }
+    #skills   { background: var(--bg-skills); }
+    #projects { background: var(--bg-projects); }
+    #contact  { background: var(--bg-contact); }
+
+    /* Reuse existing project and skills grid styles */
+  </style>
+</head>
+<body>
+  <header class="hero" id="hero">
+    <h1>👋 Hi, I'm Aryan Awasthi</h1>
+    <p>AI Engineer • ML Developer • Innovator</p>
+
+    <!-- Blended Chat Widget -->
+    <div id="chat-widget">
+      <div id="chat-messages">
+        <div class="message bot"><span>Ask me anything about Aryan, or type a section name to jump there.</span></div>
+      </div>
+      <div id="chat-input">
+        <input type="text" id="chat-text" placeholder="Type your question…" aria-label="Chat input" />
+        <button id="chat-send" aria-label="Send message">➤</button>
+      </div>
+    </div>
+
+  
+    <nav class="hero-nav">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+  </header>
+
+  <main>
+    <section id="about" class="in-view">
+      <h2>🚀 About Me</h2>
+      <p>I’m a Master’s student at Concordia University passionate about building scalable, intelligent systems in AI and ML. With experience in LLMs, Reinforcement Learning, and Cloud MLOps, I deliver real-world AI solutions that drive impact.</p>
+    </section>
+
+    <section id="skills" class="in-view">
+      <h2>🧠 Skills</h2>
+      <div class="skills-list">
+        <span>Python</span> <span>Java</span> <span>Scala</span> <span>TensorFlow</span> <span>PyTorch</span>
+        <span>LangChain</span> <span>AWS</span> <span>Docker</span> <span>Kubernetes</span> <span>FAISS</span>
+      </div>
+    </section>
+
+    <section id="projects" class="in-view">
+      <h2>🛠 Projects</h2>
+      <div class="project-grid">
+        <div class="card"><h3>Multi-Agent LLM Chatbot (RLHF)</h3><p>A LangChain-based chatbot with 92% routing accuracy, RL-based feedback, and real-time analytics via Streamlit.</p></div>
+        <div class="card"><h3>TubeLytics v2</h3><p>Real-time YouTube analytics with Akka Actors & WebSockets, cutting API calls by 60% and enriching insights.</p></div>
+        <div class="card"><h3>OpenTracks – Sport Tracker</h3><p>Android tracker enhanced with UI stats module and audio feedback on slope/elevation.</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="in-view">
+      <h2>📫 Contact</h2>
+      <p>Email: <a href="mailto:aryanbvp.09@gmail.com">aryanbvp.09@gmail.com</a></p>
+      <p>GitHub: <a href="https://github.com/arextron" target="_blank">github.com/arextron</a></p>
+      <p>LinkedIn: <a href="https://linkedin.com/in/aryan-awasthi-92353795" target="_blank">linkedin.com/in/aryan-awasthi</a></p>
+      <p><a class="cta" href="Aryan_Awasthi_v5_6_1.pdf" download>📄 Download Resume</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Aryan Awasthi. Crafted with passion and code.</p>
+  </footer>
+
+  <script>
+    // Scroll + chat logic
+    const sections = {
+      about: document.getElementById('about'),
+      skills: document.getElementById('skills'),
+      projects: document.getElementById('projects'),
+      contact: document.getElementById('contact'),
+    };
+    const messagesEl = document.getElementById('chat-messages');
+    const inputEl    = document.getElementById('chat-text');
+    const sendBtn    = document.getElementById('chat-send');
+
+    function appendMessage(who, text) {
+      const div = document.createElement('div');
+      div.className = `message ${who}`;
+      div.innerHTML = `<span>${text}</span>`;
+      messagesEl.append(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    let typingIdCounter = 0;
+    function appendTypingIndicator() {
+      const id = `typing-${typingIdCounter++}`;
+      const div = document.createElement('div');
+      div.id = id;
+      div.className = 'message bot';
+      div.innerHTML = `<span class="typing">Typing<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>`;
+      messagesEl.append(div);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return id;
+    }
+    function removeTypingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    async function handleQuery(q) {
+      const typingId = appendTypingIndicator();
+
+      try {
+        // --- IMPORTANT: Replace 'https://your-backend.onrender.com' with 'http://localhost:3001' when running locally ---
+        const backendUrl = 'http://localhost:3001'; // If running locally
+        // const backendUrl = 'https://your-deployed-backend-url.com'; // If deployed, replace this with your actual deployed backend URL
+
+        const resp = await fetch(`${backendUrl}/api/answer`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: q })
+        });
+
+
+        const text = await resp.text();
+        let data;
+        try { data = JSON.parse(text); }
+        catch { throw new Error('Invalid JSON response: ' + text); }
+
+        removeTypingIndicator(typingId);
+
+        if (resp.status === 402) {
+          appendMessage('bot', data.error);
+          return;
+        }
+        if (resp.status !== 200) {
+          throw new Error(data.error || `Server returned ${resp.status}`);
+        }
+
+        appendMessage('bot', data.answer || 'No answer provided.');
+      } catch (e) {
+        removeTypingIndicator(typingId);
+        appendMessage('bot', "Sorry, I couldn't reach the AI right now.");
+        console.error('Fetch/Parse error:', e);
+      }
+    }
+
+    sendBtn.addEventListener('click', () => {
+      const q = inputEl.value.trim();
+      if (!q) return;
+      appendMessage('user', q);
+      inputEl.value = '';
+      handleQuery(q);
+    });
+    inputEl.addEventListener('keypress', e => { if (e.key==='Enter') sendBtn.click(); });
+
+    // Reveal on scroll
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('in-view'));
+    }, { threshold: 0.2 });
+    document.querySelectorAll('section, #chat-widget').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
