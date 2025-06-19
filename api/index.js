@@ -19,15 +19,7 @@ const app = express();
 // === CORS Setup ===
 app.use(cors());
 app.use(express.json());
-// 🟢 Allow requests from your GitHub Pages domain:
-app.use(cors({
-  origin: [
-    "https://arextron.github.io",          // your GitHub Pages site
-    "https://arextron-github-io.vercel.app" // your Vercel frontend (if any)
-  ],
-  methods: ["GET", "POST", "OPTIONS"],
-  credentials: false // set to true if using cookies, otherwise false
-}));
+
 // Global variable for resume text
 let resumeText = '';
 
