@@ -22,11 +22,18 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: "https://arextron.github.io",
+  origin: function (origin, callback) {
+    if (origin === "https://arextron.github.io" || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
 }));
+
 app.use(express.json());
 
 // Global variable for resume text
