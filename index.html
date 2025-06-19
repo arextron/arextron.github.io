@@ -22,7 +22,6 @@
       color: var(--text);
       overflow-x: hidden;
     }
-
     nav ul { display: flex; justify-content: flex-end; gap: 2rem; }
     nav a { font-weight: 600; color: var(--text); text-decoration: none; }
     nav a:hover { color: var(--accent); }
@@ -111,8 +110,6 @@
 .hero-nav a:hover {
   color: var(--accent);
 }
-
-
 
     main { }
     section {
@@ -231,20 +228,16 @@
       if (el) el.remove();
     }
 
+    // 🟢 UPDATED: Use RELATIVE URL so it works everywhere!
     async function handleQuery(q) {
       const typingId = appendTypingIndicator();
 
       try {
-        // --- IMPORTANT: Replace 'https://your-backend.onrender.com' with 'http://localhost:3001' when running locally ---
-        const backendUrl = 'http://localhost:3001'; // If running locally
-        // const backendUrl = 'https://your-deployed-backend-url.com'; // If deployed, replace this with your actual deployed backend URL
-
-        const resp = await fetch(`${backendUrl}/api/answer`, {
+        const resp = await fetch('/api/answer', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: q })
         });
-
 
         const text = await resp.text();
         let data;
