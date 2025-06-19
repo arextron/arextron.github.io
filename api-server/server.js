@@ -19,8 +19,11 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// === Serve static files (like index.html, style.css) from the current directory ===
-app.use(express.static(__dirname));
+// === Serve static files (like index.html, style.css) from the 'client' directory ===
+// IMPORTANT CHANGE: Adjusting the path to serve static files from the 'client' folder.
+// Assumes 'client' folder is one level up from 'api-server'
+app.use(express.static(path.join(__dirname, '..', 'client')));
+
 
 // Global variable for resume text
 let resumeText = '';
@@ -71,12 +74,13 @@ async function testGeminiAPI() {
 // === Main function to start the server and load resources ===
 async function startServer() {
   // Define resumePath here, within the main async function, to ensure its scope
+  // Assuming resume.pdf is still in the same directory as server.js (api-server folder)
   const resumePath = path.join(__dirname, 'resume.pdf'); 
 
   // Load resume.pdf
   try {
     console.log('Looking for resume at:', resumePath);
-    const buffer = fs.readFileSync(resumePath);
+    const buffer = fs.readFileSync(resumePath); 
     const data = await extract(buffer);
     resumeText = data.text.replace(/\r\n/g, '\n').trim();
     console.log(`✅ Loaded resume.pdf, length ${resumeText.length} characters.`);
