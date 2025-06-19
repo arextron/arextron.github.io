@@ -231,10 +231,10 @@
     // 🟢 UPDATED: Use RELATIVE URL so it works everywhere!
     async function handleQuery(q) {
       const typingId = appendTypingIndicator();
-        const API_BASE =
-          window.location.hostname === 'localhost'
-            ? 'http://localhost:3001'
-            : 'https://arextron-github-io.vercel.app';
+      const API_BASE =
+        window.location.hostname === 'localhost'
+          ? 'http://localhost:3001'
+          : 'https://arextron-github-io.vercel.app';
       try {
         const resp = await fetch(`${API_BASE}/api/answer`, {
           method: 'POST',
