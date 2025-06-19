@@ -17,7 +17,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 // === CORS Setup ===
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://arextron.github.io",
+    "https://arextron-github-io.vercel.app"
+  ],
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: false
+}));
 app.use(express.json());
 
 // Global variable for resume text
