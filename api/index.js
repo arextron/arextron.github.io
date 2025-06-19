@@ -22,13 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: function (origin, callback) {
-    if (origin === "https://arextron.github.io" || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: "https://arextron.github.io",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
