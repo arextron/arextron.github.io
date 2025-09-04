@@ -125,6 +125,7 @@ h2 {
   color: #fff;
   font-weight: 700;
   background: var(--accent-gradient);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
@@ -194,6 +195,7 @@ p {
   font-weight: 700;
   font-size: 1.16rem;
   background: var(--accent-gradient);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -318,4 +320,447 @@ footer {
 
 #chat-input button:hover {
   filter: brightness(1.08);
+}
+
+#chat-clear {
+  padding: 0.62rem 0.8rem;
+  border: none;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: filter 0.18s;
+  margin-left: 0.5rem;
+}
+
+#chat-clear:hover {
+  filter: brightness(1.1);
+  background: #b91c1c;
+}
+
+/* Follow-up Suggestions */
+.follow-up-suggestions {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--bg-hero);
+  border-radius: 1rem;
+  border: 1px solid var(--divider);
+}
+
+.suggestions-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+
+.suggestion-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.suggestion-btn {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--divider);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+.suggestion-btn:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateX(4px);
+}
+
+/* Enhanced message styling */
+.message.bot span {
+  background: #23272f;
+  color: #fff;
+  line-height: 1.6;
+}
+
+.message.bot span strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.message.bot span code {
+  background: var(--bg-hero);
+  color: var(--accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.9em;
+}
+
+.message.bot span a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.message.bot span a:hover {
+  color: #ec4899;
+}
+
+/* Skills Categories */
+.skills-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.skill-category {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--divider);
+  transition: box-shadow 0.21s, transform 0.21s;
+}
+
+.skill-category:hover {
+  box-shadow: 0 4px 32px 0 rgba(244,63,94,0.14), 0 1.5px 13px 0 rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.skill-category h3 {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+}
+
+/* Project Filters */
+.project-filters {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--divider);
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+.filter-btn.active {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Enhanced Project Cards */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project-header h3 {
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+.project-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-link {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid;
+}
+
+.project-link.github {
+  background: #24292e;
+  color: #fff;
+  border-color: #24292e;
+}
+
+.project-link.github:hover {
+  background: #0366d6;
+  border-color: #0366d6;
+  color: #fff;
+}
+
+.project-link.live {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+.project-link.live:hover {
+  filter: brightness(1.1);
+  color: #fff;
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tech-tag {
+  background: var(--bg-hero);
+  color: var(--text-muted);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid var(--divider);
+  transition: all 0.2s;
+}
+
+.tech-tag:hover {
+  background: var(--accent-gradient);
+  color: #fff;
+  border-color: transparent;
+}
+
+.project-description {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.achievements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.achievements li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.achievements li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+/* Experience Section */
+.experience-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.experience-item {
+  background: var(--bg-card);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--divider);
+  transition: box-shadow 0.21s, transform 0.21s;
+}
+
+.experience-item:hover {
+  box-shadow: 0 4px 32px 0 rgba(244,63,94,0.14), 0 1.5px 13px 0 rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.experience-header h3 {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 0;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.company-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.company {
+  font-weight: 600;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.duration {
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.location {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.experience-achievements {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.experience-achievements li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.7rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.experience-achievements li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Education Section */
+.education-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.education-item {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--divider);
+  transition: box-shadow 0.21s, transform 0.21s;
+}
+
+.education-item:hover {
+  box-shadow: 0 4px 32px 0 rgba(244,63,94,0.14), 0 1.5px 13px 0 rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+
+.education-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.education-header h3 {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.university {
+  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .experience-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .company-info {
+    align-items: flex-start;
+  }
+  
+  .education-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .skills-categories {
+    grid-template-columns: 1fr;
+  }
+  
+  .project-filters {
+    justify-content: center;
+  }
+  
+  .hero-nav ul {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
 }

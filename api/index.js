@@ -33,6 +33,9 @@ app.use(express.json());
 // Global variable for resume text
 let resumeText = '';
 
+// Conversation memory (simple in-memory store for demo - in production, use Redis or database)
+const conversationMemory = new Map();
+
 // Gemini API Endpoint (defined once)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Get key once
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
@@ -101,65 +104,196 @@ async function testGeminiAPI() {
 })();
 
 
+// === Enhanced AI Assistant Functions ===
+
+// Function to get conversation context
+function getConversationContext(sessionId) {
+  const context = conversationMemory.get(sessionId) || [];
+  return context.slice(-6); // Keep last 6 exchanges for context
+}
+
+// Function to update conversation memory
+function updateConversationMemory(sessionId, question, answer) {
+  if (!conversationMemory.has(sessionId)) {
+    conversationMemory.set(sessionId, []);
+  }
+  const context = conversationMemory.get(sessionId);
+  context.push({ question, answer, timestamp: new Date().toISOString() });
+  
+  // Keep only last 10 exchanges to prevent memory bloat
+  if (context.length > 10) {
+    context.splice(0, context.length - 10);
+  }
+}
+
+// Function to detect question intent and context
+function analyzeQuestionIntent(question) {
+  const q = question.toLowerCase();
+  
+  const intents = {
+    greeting: /^(hi|hello|hey|good morning|good afternoon|good evening)/.test(q),
+    about: /^(tell me about|who is|what about|about aryan)/.test(q),
+    projects: /(project|github|repository|code|built|developed)/.test(q),
+    skills: /(skill|technology|tech|programming|language|framework)/.test(q),
+    experience: /(experience|work|job|career|employment|company)/.test(q),
+    education: /(education|university|degree|study|school|concordia|amity)/.test(q),
+    contact: /(contact|email|phone|linkedin|github|reach|connect)/.test(q),
+    availability: /(available|hiring|job|position|work|relocate|canada)/.test(q),
+    technical: /(how|what|why|explain|describe|implement|build)/.test(q),
+    navigation: /(section|page|scroll|go to|show me)/.test(q)
+  };
+  
+  return intents;
+}
+
+// Function to generate contextual follow-up suggestions
+function generateFollowUpSuggestions(intent, question) {
+  const suggestions = {
+    about: [
+      "What projects has Aryan worked on?",
+      "Tell me about Aryan's technical skills",
+      "What's Aryan's work experience?"
+    ],
+    projects: [
+      "How can I see the live demos?",
+      "What technologies were used?",
+      "Tell me about Aryan's other projects"
+    ],
+    skills: [
+      "What projects showcase these skills?",
+      "Tell me about Aryan's AI/ML experience",
+      "What's Aryan's cloud experience?"
+    ],
+    experience: [
+      "What were the key achievements?",
+      "Tell me about Aryan's current role",
+      "What technologies were used at work?"
+    ],
+    education: [
+      "What's Aryan's current status?",
+      "Tell me about Aryan's projects",
+      "Is Aryan available for work?"
+    ],
+    contact: [
+      "Is Aryan available for interviews?",
+      "What's Aryan's location?",
+      "Tell me about Aryan's work permit status"
+    ],
+    availability: [
+      "What type of roles is Aryan looking for?",
+      "Tell me about Aryan's technical skills",
+      "What's Aryan's experience level?"
+    ]
+  };
+  
+  return suggestions[intent] || [
+    "Tell me more about Aryan's projects",
+    "What are Aryan's key skills?",
+    "Is Aryan available for work?"
+  ];
+}
+
 // === API Endpoint (This is the route that Vercel will expose) ===
 app.post('/api/answer', async (req, res) => {
-  const { question } = req.body;
+  const { question, sessionId = 'default' } = req.body;
   if (!question || typeof question !== 'string' || !question.trim()) {
     return res.status(400).json({ error: 'No question provided' });
   }
   const q = question.trim();
 
-  // Adjusted prompt for less constraint, but still resume-focused
+  // Analyze question intent
+  const intent = analyzeQuestionIntent(q);
+  const conversationContext = getConversationContext(sessionId);
+  
+  // Build conversation history for context
+  let contextHistory = '';
+  if (conversationContext.length > 0) {
+    contextHistory = '\n\n**Previous Conversation Context:**\n';
+    conversationContext.forEach(exchange => {
+      contextHistory += `User: ${exchange.question}\nAI: ${exchange.answer}\n\n`;
+    });
+  }
+
+  // Enhanced prompt with personality and context awareness
   const prompt = `
-You are Aryan Awasthi’s AI assistant. Answer questions about Aryan in a concise, well-structured, and Markdown-formatted way.
+You are Aryan Awasthi's AI assistant - a friendly, knowledgeable, and enthusiastic representative of Aryan's professional profile. You're here to help visitors learn about Aryan in an engaging and interactive way.
 
-**Guidelines:**
-- Keep answers short, clear, and directly relevant to the user's question.
-- Always use Markdown formatting: real bullets (\`- \`), bold for key info, and a blank line between sections.
-- Start with a bolded title or name if the question is broad (e.g., "**Aryan Awasthi**").
-- NEVER output a plain paragraph or resume dump.
-- Do NOT repeat the entire resume; summarize only what is asked.
-- For "tell me about Aryan" or similar, use 4-6 bullet points with a blank line between summary and any contact/links (if allowed).
-- For projects, output as: 
-    - **Project Name**
-      - Short 1-sentence summary.
-      - [GitHub link](url) if available.
-- Do not include contact info or phone/email unless the user specifically asks for it.
-- Format any links as Markdown.
-- If the question is about skills, experience, education, or location, answer in a short bullet list.
-- If the question is about education, summarize the degree and institution.
-- If the question is about work experience, summarize the role and company.
-- If the question is about a project, summarize it and provide a link if available in resume.
-- Structure your reply for easy reading (like a LinkedIn summary, not a resume dump).
+**Your Personality:**
+- Friendly and approachable, but professional
+- Enthusiastic about Aryan's technical achievements
+- Helpful and encouraging
+- Use emojis sparingly but effectively (🚀, 💻, 🎯, ⚡, 🔥)
+- Show genuine interest in helping visitors
 
-- Example for "tell me about Aryan":
-    ---
-    ---
-    **Aryan Awasthi**
+**Response Guidelines:**
+- Keep responses conversational yet informative
+- Use Markdown formatting for structure and readability
+- Include relevant emojis to make responses engaging
+- Provide specific examples and metrics when available
+- Always end with a helpful follow-up suggestion or question
+- Be context-aware based on previous conversation
 
-    - Recent Graduate of Master’s in Applied Computer Science from Concordia University
-    - Experienced in Python, ML, MLOps, and backend development
-    - Projects: Multi-agent LLM chatbot, Real-time YouTube analytics, Android sport tracker
-    - Former TechOps Engineer at Tech Mahindra-Comviva
-    - Cloud: AWS, Docker, Kubernetes
+**Formatting Rules:**
+- Use **bold** for key information and names
+- Use bullet points (-) for lists
+- Use code blocks for technical terms
+- Include [links](url) when relevant
+- Add blank lines between sections for readability
 
-    [LinkedIn](https://www.linkedin.com/in/aryan-awasthi) | [GitHub](https://github.com/arextron)
-    ---
+**Context Awareness:**
+- If user asks about navigation, suggest specific sections
+- If discussing projects, always mention GitHub links
+- If talking about skills, connect them to real projects
+- If discussing availability, mention work permit status
+- Build on previous conversation context naturally
 
-    Always answer using Markdown formatting with bullets and bold for key facts, and use a blank line between logical sections for readability.
+**Special Instructions:**
+- For greeting questions: Be warm and introduce Aryan briefly
+- For project questions: Always include GitHub links and tech stacks
+- For skill questions: Connect skills to specific projects/achievements
+- For experience questions: Highlight quantifiable achievements
+- For availability questions: Mention PGWP status and relocation willingness
+- For technical questions: Provide detailed explanations with examples
 
-    - Has PGWP (Post-Graduation Work Permit) valid until 2028.
-    - contact: aryanbvp.09@gmail.com 
-    - Location: willing to relocate anywhere in Canada.
-    - Open to full-time roles in Canada.
-    - Available for work immediately.
+${contextHistory}
 
---- Resume Text ---
+**Aryan's Key Information:**
+- Master's in Applied Computer Science from Concordia University (2023-2025)
+- Bachelor's in Computer Science from Amity University (2017-2021)
+- Currently: Associate I at Amazon Canada FC (Oct 2023 - May 2025)
+- Previous: TechOps Engineer at Comviva (June 2021 - Aug 2021)
+- Location: Montreal, QC (willing to relocate anywhere in Canada)
+- Work Status: PGWP valid until 2028, available immediately
+- Contact: aryanbvp.09@gmail.com
+
+**Notable Projects:**
+1. **Tik AI** - TikTok AI Agent with Google Gemini 2.5 Flash (90%+ accuracy, <2s response)
+2. **Scrapy** - TikTok Scraper with AI Vector Search (100ms embedding, <50ms search)
+3. **Multi-Agent LLM Chatbot** - RLHF system (92% routing accuracy, 87% response relevance)
+4. **TubeLytics v2** - Real-time YouTube Analytics (60% API call reduction)
+
+**Tech Stack Highlights:**
+- AI/ML: LangChain, FAISS, TensorFlow, Vertex AI, Gemini API
+- Backend: FastAPI, Node.js, Java, Scala, Play Framework
+- Frontend: Next.js, React, TypeScript, Tailwind CSS
+- Cloud: AWS (SageMaker, Lambda, S3), Docker, Kubernetes
+- Databases: PostgreSQL, Redis, Vector Databases
+
+--- Full Resume Text ---
 ${resumeText}
 --- End Resume ---
 
-Question:
-${q}
+**Current Question:** ${q}
+
+**Instructions:**
+1. Analyze the question intent and provide a helpful, engaging response
+2. Use the conversation context to build naturally on previous exchanges
+3. Include relevant technical details and achievements
+4. End with a follow-up suggestion to encourage continued engagement
+5. Keep the response conversational but informative
+6. Use appropriate emojis and formatting for engagement
+
+Respond as Aryan's AI assistant:
 `;
 
   try {
@@ -173,8 +307,28 @@ ${q}
       { contents: [{ parts: [{ text: prompt }] }] },
       { headers: { 'Content-Type': 'application/json' } }
     );
+    
     const reply = apiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-    res.json({ answer: reply });
+    
+    // Update conversation memory
+    updateConversationMemory(sessionId, q, reply);
+    
+    // Generate follow-up suggestions based on intent
+    const primaryIntent = Object.keys(intent).find(key => intent[key]) || 'general';
+    const followUpSuggestions = generateFollowUpSuggestions(primaryIntent, q);
+    
+    // Enhanced response with metadata
+    const response = {
+      answer: reply,
+      metadata: {
+        intent: primaryIntent,
+        followUpSuggestions: followUpSuggestions.slice(0, 3), // Limit to 3 suggestions
+        timestamp: new Date().toISOString(),
+        sessionId: sessionId
+      }
+    };
+    
+    res.json(response);
   } catch (err) {
     console.error('❌ Error calling Gemini API:', err.response?.data || err.message);
     if (axios.isAxiosError(err) && err.response) {
@@ -188,9 +342,34 @@ ${q}
   }
 });
 
+// Conversation management endpoints
+app.get('/api/conversation/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+  const context = getConversationContext(sessionId);
+  res.json({ 
+    sessionId, 
+    conversationHistory: context,
+    messageCount: context.length 
+  });
+});
+
+app.delete('/api/conversation/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+  conversationMemory.delete(sessionId);
+  res.json({ message: 'Conversation cleared', sessionId });
+});
+
 // Optional health-check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ 
+    status: 'ok',
+    features: {
+      conversationMemory: true,
+      intentAnalysis: true,
+      followUpSuggestions: true,
+      enhancedPrompting: true
+    }
+  });
 });
 
 // IMPORTANT: Export the app for Vercel

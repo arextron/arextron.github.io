@@ -15,11 +15,14 @@
     <!-- Blended Chat Widget -->
     <div id="chat-widget">
       <div id="chat-messages">
-        <div class="message bot"><span>Ask me anything about Aryan, or type a section name to jump there.</span></div>
+        <div class="message bot">
+          <span>👋 Hi! I'm Aryan's AI assistant. I can help you learn about his projects, skills, experience, and more! Try asking me anything - I remember our conversation and can suggest follow-up questions to keep exploring! 🚀</span>
+        </div>
       </div>
       <div id="chat-input">
-        <input type="text" id="chat-text" placeholder="Type your question…" aria-label="Chat input" />
+        <input type="text" id="chat-text" placeholder="Ask about Aryan's projects, skills, experience..." aria-label="Chat input" />
         <button id="chat-send" aria-label="Send message">➤</button>
+        <button id="chat-clear" aria-label="Clear conversation" title="Clear conversation">🗑️</button>
       </div>
     </div>
 
@@ -29,6 +32,8 @@
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -43,18 +48,234 @@
 
     <section id="skills" class="in-view">
       <h2>🧠 Skills</h2>
-      <div class="skills-list">
-        <span>Python</span> <span>Java</span> <span>Scala</span> <span>TensorFlow</span> <span>PyTorch</span>
-        <span>LangChain</span> <span>AWS</span> <span>Docker</span> <span>Kubernetes</span> <span>FAISS</span>
+      <div class="skills-categories">
+        <div class="skill-category">
+          <h3>Programming Languages</h3>
+          <div class="skills-list">
+            <span>Python</span> <span>Java</span> <span>C++</span> <span>TypeScript</span> <span>SQL</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>LLMs & Generative AI</h3>
+          <div class="skills-list">
+            <span>LangChain</span> <span>LangGraph</span> <span>FAISS</span> <span>Pinecone</span> <span>Elasticsearch</span>
+            <span>Gemini API</span> <span>Llama3</span> <span>TensorFlow</span> <span>Vertex AI</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Backend & APIs</h3>
+          <div class="skills-list">
+            <span>FastAPI</span> <span>Flask</span> <span>REST APIs</span> <span>WebSockets</span> <span>Play Framework</span>
+            <span>Akka Actors</span> <span>Node.js</span> <span>Hono</span> <span>BullMQ</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Frontend & UI/UX</h3>
+          <div class="skills-list">
+            <span>Next.js</span> <span>React</span> <span>Tailwind CSS</span> <span>HTML</span> <span>CSS</span>
+            <span>Material Design</span> <span>Android SDK</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Databases & Storage</h3>
+          <div class="skills-list">
+            <span>PostgreSQL</span> <span>MySQL</span> <span>Redis</span> <span>Vector Databases</span> <span>Apache Spark</span>
+            <span>Hadoop</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Cloud & DevOps</h3>
+          <div class="skills-list">
+            <span>AWS</span> <span>SageMaker</span> <span>Lambda</span> <span>S3</span> <span>Docker</span>
+            <span>Kubernetes</span> <span>Vercel</span> <span>GitHub Actions</span> <span>MLflow</span> <span>Kubeflow</span>
+            <span>CI/CD</span> <span>Git</span>
+          </div>
+        </div>
+        <div class="skill-category">
+          <h3>Modern Tools & Frameworks</h3>
+          <div class="skills-list">
+            <span>Bun</span> <span>Playwright</span> <span>Xenova/transformers</span> <span>Cloudinary</span> <span>Streamlit</span>
+            <span>n8n</span> <span>SonarQube</span> <span>Grafana</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="projects" class="in-view">
       <h2>🛠 Projects</h2>
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ai">AI/ML</button>
+        <button class="filter-btn" data-filter="web">Web</button>
+        <button class="filter-btn" data-filter="mobile">Mobile</button>
+      </div>
       <div class="project-grid">
-        <div class="card"><h3>Multi-Agent LLM Chatbot (RLHF)</h3><p>A LangChain-based chatbot with 92% routing accuracy, RL-based feedback, and real-time analytics via Streamlit.</p></div>
-        <div class="card"><h3>TubeLytics v2</h3><p>Real-time YouTube analytics with Akka Actors & WebSockets, cutting API calls by 60% and enriching insights.</p></div>
-        <div class="card"><h3>OpenTracks – Sport Tracker</h3><p>Android tracker enhanced with UI stats module and audio feedback on slope/elevation.</p></div>
+        <div class="card" data-category="ai">
+          <div class="project-header">
+            <h3>Tik AI - TikTok AI Agent</h3>
+            <div class="project-links">
+              <a href="https://github.com/arextron/tik-ai" target="_blank" class="project-link github">GitHub</a>
+              <a href="https://tik-ai-demo.vercel.app" target="_blank" class="project-link live">Live Demo</a>
+            </div>
+          </div>
+          <div class="tech-stack">
+            <span class="tech-tag">Next.js 14</span>
+            <span class="tech-tag">React 18</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Tailwind CSS</span>
+            <span class="tech-tag">Google Gemini 2.5 Flash</span>
+            <span class="tech-tag">Google Veo 2/3</span>
+            <span class="tech-tag">Vertex AI</span>
+          </div>
+          <p class="project-description">Built AI-powered content analysis system using Google Gemini 2.5 Flash with 90%+ accuracy and <2s response time. Integrated Google Veo 2 model for video generation with 5-8s promotional content and 3-5min generation time.</p>
+          <ul class="achievements">
+            <li>Built Next.js dashboard with TypeScript and Tailwind for unified content workflow supporting 100+ concurrent users</li>
+            <li>Created scalable service-oriented architecture with modular AI services handling 1000+ video assets</li>
+            <li>Implemented production-ready deployment with Docker containerization and Vercel achieving 99%+ uptime</li>
+            <li>Integrated multiple Google AI services with fallback mechanisms supporting 4+ video styles and 3+ aspect ratios</li>
+          </ul>
+        </div>
+
+        <div class="card" data-category="web">
+          <div class="project-header">
+            <h3>Scrapy - TikTok Scraper with AI-Powered Vector Search</h3>
+            <div class="project-links">
+              <a href="https://github.com/arextron/scrapy-tiktok" target="_blank" class="project-link github">GitHub</a>
+              <a href="https://scrapy-tiktok.vercel.app" target="_blank" class="project-link live">Live Demo</a>
+            </div>
+          </div>
+          <div class="tech-stack">
+            <span class="tech-tag">Bun</span>
+            <span class="tech-tag">Hono</span>
+            <span class="tech-tag">BullMQ</span>
+            <span class="tech-tag">Redis</span>
+            <span class="tech-tag">Playwright</span>
+            <span class="tech-tag">Xenova/transformers</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">PM2</span>
+            <span class="tech-tag">Docker</span>
+          </div>
+          <p class="project-description">Successfully scraped 100+ TikTok videos with comprehensive metadata extraction. Created AI vector search using all-MiniLM-L6-v2 with 100ms embedding and <50ms search time.</p>
+          <ul class="achievements">
+            <li>Created a scalable architecture that handles 1000+ concurrent embeddings efficiently</li>
+            <li>Implemented BullMQ + Redis queue processing 3 jobs/5s with 120s timeout protection</li>
+            <li>Designed scalable storage achieving 2KB per video with efficient memory management</li>
+          </ul>
+        </div>
+
+        <div class="card" data-category="ai">
+          <div class="project-header">
+            <h3>Multi-Agent LLM Chatbot with Reinforcement Learning</h3>
+            <div class="project-links">
+              <a href="https://github.com/arextron/multi-agent-chatbot" target="_blank" class="project-link github">GitHub</a>
+            </div>
+          </div>
+          <div class="tech-stack">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Llama3</span>
+            <span class="tech-tag">LangChain</span>
+            <span class="tech-tag">FAISS</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Streamlit</span>
+            <span class="tech-tag">RLHF</span>
+          </div>
+          <p class="project-description">Implemented a multi-agent chatbot system achieving 92% routing accuracy and 87% response relevance across diverse queries. Improved the RAG pipeline with FAISS integration, 3x context retrieval speed.</p>
+          <ul class="achievements">
+            <li>Integrated Human feedback reinforcement learning (RLHF), boosting engagement by 35% and reducing latency by 45%</li>
+            <li>Developed and trained a reward model on 1,000+ feedback logs to enable adaptive response re-ranking</li>
+            <li>Developed an interactive Streamlit dashboard for real-time analytics, feedback collection, and performance monitoring</li>
+          </ul>
+        </div>
+
+        <div class="card" data-category="web">
+          <div class="project-header">
+            <h3>TubeLytics v2 – Reactive YouTube Analytics Dashboard</h3>
+            <div class="project-links">
+              <a href="https://github.com/arextron/tubelytics-v2" target="_blank" class="project-link github">GitHub</a>
+            </div>
+          </div>
+          <div class="tech-stack">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">Scala</span>
+            <span class="tech-tag">Play Framework</span>
+            <span class="tech-tag">Akka Actors</span>
+            <span class="tech-tag">WebSockets</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">GitHub Actions</span>
+          </div>
+          <p class="project-description">Designed a real-time dashboard that streams channel, video, and tag analytics from the YouTube Data API v3 via WebSockets for a smooth, refresh-free user experience.</p>
+          <ul class="achievements">
+            <li>Introduced Akka actor supervision and request caching, trimming YouTube API calls by 60% in typical usage scenarios</li>
+            <li>Added word-frequency and tag modules that process 1M+ description words per query without blocking the main event loop</li>
+            <li>Achieved 90%+ unit-test coverage on controllers and services with JUnit 5 and sbt CI checks</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="in-view">
+      <h2>💼 Experience</h2>
+      <div class="experience-timeline">
+        <div class="experience-item">
+          <div class="experience-header">
+            <h3>Associate I</h3>
+            <div class="company-info">
+              <span class="company">Amazon Canada FC, ULC</span>
+              <span class="duration">October 2023 – May 2025</span>
+            </div>
+            <span class="location">Montreal, QC, Canada</span>
+          </div>
+          <ul class="experience-achievements">
+            <li>Provided technical support for warehouse operations, resolving 100+ device issues daily and maintaining 95% uptime</li>
+            <li>Automated routine tasks using scripting tools, reducing manual errors by 15% and improving efficiency by 20%</li>
+            <li>Monitored system performance and analyzed logs to identify and resolve technical issues, reducing incident response time by 30%</li>
+            <li>Collaborated with cross-functional teams to implement system improvements, resulting in 25% faster problem resolution</li>
+            <li>Maintained documentation for technical procedures and provided training to 15+ team members on new systems</li>
+            <li>Ensured compliance with IT security protocols and data protection standards, achieving 100% compliance in warehouse operations</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <h3>TechOps Engineer</h3>
+            <div class="company-info">
+              <span class="company">Comviva</span>
+              <span class="duration">June 2021 – August 2021</span>
+            </div>
+            <span class="location">Gurugram, India</span>
+          </div>
+          <ul class="experience-achievements">
+            <li>Developed and maintained enterprise applications using Java and Spring Framework, serving 500+ users across multiple projects</li>
+            <li>Implemented RESTful APIs and microservices, improving system scalability by 40% and reducing response time by 25%</li>
+            <li>Collaborated with cross-functional teams to deliver software solutions, completing 15+ projects within deadlines</li>
+            <li>Performed code reviews and implemented best practices, reducing bug reports by 30% and improving code quality</li>
+            <li>Worked with databases including MySQL and PostgreSQL, optimizing queries and improving performance by 35%</li>
+            <li>Participated in Agile development processes and contributed to sprint planning, achieving 95% sprint completion rate</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="education" class="in-view">
+      <h2>🎓 Education</h2>
+      <div class="education-timeline">
+        <div class="education-item">
+          <div class="education-header">
+            <h3>Master of Applied Computer Science</h3>
+            <span class="university">Concordia University</span>
+            <span class="duration">August 2023 - May 2025</span>
+          </div>
+          <span class="location">Montreal, Quebec</span>
+        </div>
+
+        <div class="education-item">
+          <div class="education-header">
+            <h3>Bachelor of Technology in Computer Science and Engineering</h3>
+            <span class="university">Amity University</span>
+            <span class="duration">July 2017 - June 2021</span>
+          </div>
+          <span class="location">Noida, India</span>
+        </div>
       </div>
     </section>
 
@@ -77,18 +298,47 @@
       about: document.getElementById('about'),
       skills: document.getElementById('skills'),
       projects: document.getElementById('projects'),
+      experience: document.getElementById('experience'),
+      education: document.getElementById('education'),
       contact: document.getElementById('contact'),
     };
     const messagesEl = document.getElementById('chat-messages');
     const inputEl    = document.getElementById('chat-text');
     const sendBtn    = document.getElementById('chat-send');
+    const clearBtn   = document.getElementById('chat-clear');
+    
+    // Generate a unique session ID for conversation memory
+    let sessionId = localStorage.getItem('chatSessionId') || 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('chatSessionId', sessionId);
 
-    function appendMessage(who, text) {
+    function appendMessage(who, text, metadata = null) {
       const div = document.createElement('div');
       div.className = `message ${who}`;
-      div.innerHTML = `<span>${text}</span>`;
+      
+      if (who === 'bot' && metadata && metadata.followUpSuggestions) {
+        // Enhanced bot message with follow-up suggestions
+        div.innerHTML = `
+          <span>${text}</span>
+          <div class="follow-up-suggestions">
+            <div class="suggestions-label">💡 Try asking:</div>
+            <div class="suggestion-buttons">
+              ${metadata.followUpSuggestions.map(suggestion => 
+                `<button class="suggestion-btn" onclick="sendSuggestion('${suggestion.replace(/'/g, "\\'")}')">${suggestion}</button>`
+              ).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        div.innerHTML = `<span>${text}</span>`;
+      }
+      
       messagesEl.append(div);
       messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+    
+    function sendSuggestion(suggestion) {
+      inputEl.value = suggestion;
+      sendBtn.click();
     }
 
     let typingIdCounter = 0;
@@ -118,15 +368,11 @@
         const resp = await fetch(`${API_BASE}/api/answer`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: q })
+          body: JSON.stringify({ 
+            question: q,
+            sessionId: sessionId
+          })
         });
-
-      // try {
-      //   const resp = await fetch('/api/answer', {
-      //     method: 'POST',
-      //     headers: { 'Content-Type': 'application/json' },
-      //     body: JSON.stringify({ question: q })
-      //   });
 
         const text = await resp.text();
         let data;
@@ -143,10 +389,14 @@
           throw new Error(data.error || `Server returned ${resp.status}`);
         }
 
-        appendMessage('bot', data.answer || 'No answer provided.');
+        // Handle enhanced response with metadata
+        const answer = data.answer || 'No answer provided.';
+        const metadata = data.metadata || null;
+        
+        appendMessage('bot', answer, metadata);
       } catch (e) {
         removeTypingIndicator(typingId);
-        appendMessage('bot', "Sorry, I couldn't reach the AI right now.");
+        appendMessage('bot', "Sorry, I couldn't reach the AI right now. Please try again! 🤖");
         console.error('Fetch/Parse error:', e);
       }
     }
@@ -159,6 +409,58 @@
       handleQuery(q);
     });
     inputEl.addEventListener('keypress', e => { if (e.key==='Enter') sendBtn.click(); });
+    
+    clearBtn.addEventListener('click', async () => {
+      // Clear local chat display
+      messagesEl.innerHTML = `
+        <div class="message bot">
+          <span>👋 Hi! I'm Aryan's AI assistant. I can help you learn about his projects, skills, experience, and more! Try asking me anything - I remember our conversation and can suggest follow-up questions to keep exploring! 🚀</span>
+        </div>
+      `;
+      
+      // Clear server-side conversation memory
+      try {
+        const API_BASE = window.location.hostname === 'localhost' 
+          ? 'http://localhost:3001' 
+          : 'https://arextron-github-io.vercel.app';
+        
+        await fetch(`${API_BASE}/api/conversation/${sessionId}`, {
+          method: 'DELETE'
+        });
+        
+        // Generate new session ID
+        sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chatSessionId', sessionId);
+        
+        console.log('Conversation cleared successfully');
+      } catch (error) {
+        console.error('Error clearing conversation:', error);
+      }
+    });
+
+    // Project filtering functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.card[data-category]');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = 'flex';
+            card.style.animation = 'fadeInUp 0.5s ease-out';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
 
     // Reveal on scroll
     const obs = new IntersectionObserver(entries => {
