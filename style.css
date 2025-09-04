@@ -181,14 +181,19 @@ header.hero {
   font-size: 1.3rem;
   margin-bottom: 1rem;
   color: var(--accent);
-  border-right: 2px solid var(--accent);
-  white-space: nowrap;
-  overflow: hidden;
-  animation: typing 3.5s steps(36,end), blink .8s infinite;
   width: fit-content;
+  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
   font-weight: 500;
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  border-right: 2px solid #ec4899;
+  animation: blink 1s infinite;
 }
 
 @keyframes typing { from { width: 0; } to { width: 100%; } }

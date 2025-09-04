@@ -9,8 +9,8 @@
 </head>
 <body>
   <header class="hero" id="hero">
-    <h1>👋 Hi, I'm Aryan Awasthi</h1>
-    <p>AI Engineer • ML Developer • Innovator</p>
+    <h1 id="hero-title">Aryan Awasthi</h1>
+    <p id="hero-subtitle" style="display: none;"></p>
 
     <!-- Blended Chat Widget -->
     <div id="chat-widget">
@@ -43,7 +43,8 @@
   <main>
     <section id="about" class="in-view">
       <h2>🚀 About Me</h2>
-      <p>I'm a recent Master's graduate from Concordia University with a passion for building scalable, intelligent systems in AI and ML. With hands-on experience in LLMs, Reinforcement Learning, and Cloud MLOps, I've delivered real-world AI solutions including TikTok AI agents, multi-agent chatbots, and real-time analytics platforms. Earlier Worked as Associate I at Amazon while actively seeking full-time opportunities in AI/ML engineering roles across Canada.</p>
+      <p>AI enthusiast with a fresh Master's in Applied Computer Science from Concordia University, and a solid track record of building ML systems that don't just work — they scale, adapt, and actually make sense.</p>
+      <p>From fine-tuning LLaMA 3 and BERT models to deploying APIs with FastAPI and Docker, I've built multi-agent chatbots, crunched data, and wrangled logs — all while keeping Python as my second language (first is Tea☕).</p>
     </section>
 
     <section id="skills" class="in-view">
@@ -515,6 +516,104 @@
       entries.forEach(e => e.isIntersecting && e.target.classList.add('in-view'));
     }, { threshold: 0.2 });
     document.querySelectorAll('section, #chat-widget, header.hero').forEach(el => obs.observe(el));
+
+    // Hero typing animation sequence
+    function initHeroAnimation() {
+      const heroTitle = document.getElementById('hero-title');
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      
+      const titles = [
+        'AI Engineer',
+        'ML Developer', 
+        'Full Stack AI Engineer'
+      ];
+      
+      let currentTitleIndex = 0;
+      let isTyping = false;
+      
+      // Start title rotation directly
+      function startTitleRotation() {
+        // Show subtitle for rotating titles
+        heroSubtitle.style.display = 'block';
+        heroSubtitle.style.opacity = '0';
+        heroSubtitle.style.transition = 'opacity 0.5s ease-in';
+        
+        setTimeout(() => {
+          heroSubtitle.style.opacity = '1';
+          // Start rotating titles
+          setTimeout(() => {
+            rotateTitles();
+          }, 1000);
+        }, 100);
+      }
+      
+      // Rotating titles with typing animation
+      function typeTitle(title) {
+        return new Promise((resolve) => {
+          heroSubtitle.textContent = '';
+          heroSubtitle.style.borderRight = '2px solid #ec4899';
+          isTyping = true;
+          
+          let i = 0;
+          const typeInterval = setInterval(() => {
+            heroSubtitle.textContent += title[i];
+            i++;
+            if (i >= title.length) {
+              clearInterval(typeInterval);
+              isTyping = false;
+              // Keep cursor visible after typing
+              heroSubtitle.style.borderRight = '2px solid #ec4899';
+              resolve();
+            }
+          }, 100);
+        });
+      }
+      
+      function eraseTitle() {
+        return new Promise((resolve) => {
+          const currentText = heroSubtitle.textContent;
+          let i = currentText.length;
+          
+          const eraseInterval = setInterval(() => {
+            heroSubtitle.textContent = currentText.substring(0, i);
+            i--;
+            if (i <= 0) {
+              clearInterval(eraseInterval);
+              // Keep cursor visible even when text is empty
+              heroSubtitle.style.borderRight = '2px solid #ec4899';
+              resolve();
+            }
+          }, 50);
+        });
+      }
+      
+      async function rotateTitles() {
+        while (true) {
+          // Type current title
+          await typeTitle(titles[currentTitleIndex]);
+          
+          // Wait before erasing
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Erase title
+          await eraseTitle();
+          
+          // Move to next title
+          currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+          
+          // Wait before typing next title
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+      
+      // Start the animation sequence
+      setTimeout(() => {
+        startTitleRotation();
+      }, 1000);
+    }
+    
+    // Initialize hero animation
+    initHeroAnimation();
 
     // Create space stars
     function createStars() {
