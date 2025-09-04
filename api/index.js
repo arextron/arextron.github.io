@@ -7,12 +7,12 @@ import extract from 'pdf-extraction';
 import { fileURLToPath } from 'url';
 import axios from 'axios';
 
-// Load environment variables. IMPORTANT: For Vercel, you'll configure these in the Vercel dashboard.
-dotenv.config();
-
 // Determine the current directory of this module (api/index.js)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables. IMPORTANT: For Vercel, you'll configure these in the Vercel dashboard.
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: "https://arextron.github.io",
+  origin: ["https://arextron.github.io", "http://localhost:8080", "http://127.0.0.1:8080"],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
@@ -39,6 +39,109 @@ const conversationMemory = new Map();
 // Gemini API Endpoint (defined once)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Get key once
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// ScreenshotOne API Key
+const SCREENSHOTONE_API_KEY = process.env.SCREENSHOTONE_API_KEY;
+console.log('Environment check:');
+console.log('SCREENSHOTONE_API_KEY exists:', !!SCREENSHOTONE_API_KEY);
+console.log('SCREENSHOTONE_API_KEY length:', SCREENSHOTONE_API_KEY?.length || 0);
+console.log('SCREENSHOTONE_API_KEY first 4 chars:', SCREENSHOTONE_API_KEY?.substring(0, 4) || 'undefined');
+
+// === Screenshot Endpoint ===
+app.get('/api/screenshot', async (req, res) => {
+  try {
+    const { url } = req.query;
+    
+    console.log('Screenshot request for URL:', url);
+    console.log('ScreenshotOne API Key configured:', !!SCREENSHOTONE_API_KEY);
+    
+    if (!url) {
+      console.error('No URL provided');
+      return res.status(400).json({ error: 'URL parameter is required' });
+    }
+    
+    if (!SCREENSHOTONE_API_KEY) {
+      console.error('ScreenshotOne API key not configured');
+      return res.status(500).json({ error: 'ScreenshotOne API key not configured' });
+    }
+    
+    // Build ScreenshotOne URL with your API key - Full page screenshot
+    const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(url)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&image_quality=80&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=true&block_trackers=true&delay=3&timeout=15&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=500&full_page_scroll_delay=1500&reduced_motion=true`;
+    
+    console.log('Calling ScreenshotOne API...');
+    
+    // Fetch the screenshot
+    const response = await axios.get(screenshotUrl, {
+      responseType: 'stream',
+      timeout: 15000
+    });
+    
+    console.log('ScreenshotOne response status:', response.status);
+    console.log('ScreenshotOne response headers:', response.headers);
+    
+    // Set appropriate headers
+    res.set({
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
+    });
+    
+    // Pipe the screenshot to the response
+    response.data.pipe(res);
+    
+  } catch (error) {
+    console.error('Screenshot error:', error.message);
+    console.error('Error details:', error.response?.data || error.stack);
+    res.status(500).json({ 
+      error: 'Failed to generate screenshot',
+      details: error.message,
+      url: req.query.url
+    });
+  }
+});
+
+// === Test Screenshot Endpoint ===
+app.get('/api/test-screenshot', async (req, res) => {
+  try {
+    res.json({
+      message: 'Screenshot endpoint is working',
+      apiKeyConfigured: !!SCREENSHOTONE_API_KEY,
+      apiKeyLength: SCREENSHOTONE_API_KEY ? SCREENSHOTONE_API_KEY.length : 0,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// === Simple Screenshot Test ===
+app.get('/api/screenshot-test', async (req, res) => {
+  try {
+    if (!SCREENSHOTONE_API_KEY) {
+      return res.status(500).json({ error: 'API key not configured' });
+    }
+    
+    const testUrl = 'https://google.com';
+    const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(testUrl)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=500&full_page_scroll_delay=1500&reduced_motion=true`;
+    
+    console.log('Testing ScreenshotOne with URL:', screenshotUrl);
+    
+    const response = await axios.get(screenshotUrl, {
+      responseType: 'stream',
+      timeout: 10000
+    });
+    
+    res.set('Content-Type', 'image/png');
+    response.data.pipe(res);
+    
+  } catch (error) {
+    console.error('Screenshot test error:', error.message);
+    res.status(500).json({ 
+      error: 'Screenshot test failed',
+      message: error.message,
+      response: error.response?.data || 'No response data'
+    });
+  }
+});
 
 // === Function to test Gemini API connectivity ===
 async function testGeminiAPI() {
