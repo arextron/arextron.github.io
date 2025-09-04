@@ -38,7 +38,7 @@ const conversationMemory = new Map();
 
 // Gemini API Endpoint (defined once)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Get key once
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // === Function to test Gemini API connectivity ===
 async function testGeminiAPI() {
@@ -70,7 +70,7 @@ async function testGeminiAPI() {
     console.error('❌ Error connecting to Gemini API during test:', err.response?.data || err.message);
     if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === 403) {
-            console.error('API Key might be invalid or unauthorized for Gemini 2.0 Flash.');
+            console.error('API Key might be invalid or unauthorized for Gemini 2.5 Flash.');
         } else if (err.response.status === 400 && err.response.data?.error?.message?.includes("API key not valid")) {
             console.error('Your GEMINI_API_KEY appears to be invalid.');
         }
@@ -273,11 +273,13 @@ ${contextHistory}
 2. **Scrapy** - TikTok Scraper with AI Vector Search (100ms embedding, <50ms search)
 3. **Multi-Agent LLM Chatbot** - RLHF system (92% routing accuracy, 87% response relevance)
 4. **TubeLytics v2** - Real-time YouTube Analytics (60% API call reduction)
+5. **OpenTracks** - Sport Tracker Android App (Aggregate-Statistics dashboard, voice announcements)
 
 **Tech Stack Highlights:**
 - AI/ML: LangChain, FAISS, TensorFlow, Vertex AI, Gemini API
 - Backend: FastAPI, Node.js, Java, Scala, Play Framework
 - Frontend: Next.js, React, TypeScript, Tailwind CSS
+- Mobile: Android SDK, Java, Material Design, Gradle
 - Cloud: AWS (SageMaker, Lambda, S3), Docker, Kubernetes
 - Databases: PostgreSQL, Redis, Vector Databases
 
