@@ -65,8 +65,8 @@ app.get('/api/screenshot', async (req, res) => {
       return res.status(500).json({ error: 'ScreenshotOne API key not configured' });
     }
     
-    // Build ScreenshotOne URL with your API key - Full page screenshot
-    const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(url)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&image_quality=80&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=true&block_trackers=true&delay=3&timeout=15&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=500&full_page_scroll_delay=1500&reduced_motion=true`;
+    // Build ScreenshotOne URL with your API key - Optimized for production
+    const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(url)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&image_quality=80&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=true&block_trackers=true&delay=2&timeout=20&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=800&full_page_scroll_delay=1000&reduced_motion=true`;
     
     console.log('Calling ScreenshotOne API...');
     
