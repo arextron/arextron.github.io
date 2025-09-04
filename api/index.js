@@ -269,11 +269,18 @@ ge - Recent Master's graduate in Applied Computer Science from Concordia Univers
 - Contact: aryanbvp.09@gmail.com
 
 **Notable Projects:**
-1. **Tik AI** - TikTok AI Agent with Google Gemini 2.5 Flash (90%+ accuracy, <2s response)
-2. **Scrapy** - TikTok Scraper with AI Vector Search (100ms embedding, <50ms search)
-3. **Multi-Agent LLM Chatbot** - RLHF system (92% routing accuracy, 87% response relevance)
-4. **TubeLytics v2** - Real-time YouTube Analytics (60% API call reduction)
-5. **OpenTracks** - Sport Tracker Android App (Aggregate-Statistics dashboard, voice announcements)
+1. **Tik AI** - TikTok AI Agent with Google Gemini 2.5 Flash (90%+ accuracy, <2s response) - Live Demo: https://ai-agent-livid-eight.vercel.app/
+2. **Scrapy** - TikTok Scraper with AI Vector Search (100ms embedding, <50ms search) - Website: https://scrapy-ai.vercel.app/
+3. **Multi-Agent LLM Chatbot** - RLHF system (92% routing accuracy, 87% response relevance) - GitHub repository available
+4. **TubeLytics v2** - Real-time YouTube Analytics (60% API call reduction) - GitHub repository available
+5. **OpenTracks** - Sport Tracker Android App (Aggregate-Statistics dashboard, voice announcements) - GitHub: https://github.com/HWJFish/OpenTracks-Winter-SOEN-6431_2024
+
+**IMPORTANT - Link Guidelines:**
+- ONLY mention links that are explicitly provided above
+- Do NOT create or suggest GitHub links, website links, or demo URLs that aren't listed
+- For projects without specific links, say "repository available" or "live demo available" but don't provide fake URLs
+- Be accurate about which projects have public links vs private repositories
+- Do NOT make up website URLs or demo links that don't exist
 
 **Tech Stack Highlights:**
 - AI/ML: LangChain, FAISS, TensorFlow, Vertex AI, Gemini API
