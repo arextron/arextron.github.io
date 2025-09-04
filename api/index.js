@@ -38,7 +38,7 @@ const conversationMemory = new Map();
 
 // Gemini API Endpoint (defined once)
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY; // Get key once
-const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
 // === Function to test Gemini API connectivity ===
 async function testGeminiAPI() {

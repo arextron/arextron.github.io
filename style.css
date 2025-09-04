@@ -31,14 +31,13 @@ body::before {
   width: 100%;
   height: 100%;
   background: 
-    radial-gradient(ellipse at calc(20% + var(--nebula-x, 0px)) calc(20% + var(--nebula-y, 0px)), rgba(162,28,175,0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at calc(80% + var(--nebula-x, 0px)) calc(80% + var(--nebula-y, 0px)), rgba(236,72,153,0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at calc(50% + var(--nebula-x, 0px)) calc(50% + var(--nebula-y, 0px)), rgba(244,63,94,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse at 20% 20%, rgba(162,28,175,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(236,72,153,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(244,63,94,0.08) 0%, transparent 70%),
     linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
   pointer-events: none;
   z-index: -1;
   animation: nebulaMove 30s ease-in-out infinite alternate;
-  transform: scale(var(--nebula-scale, 1));
 }
 
 @keyframes nebulaMove {
@@ -68,7 +67,7 @@ a {
 
 a:hover {
   color: #ec4899;
-}
+  }
 
 /* Space particles */
 #space-particles {
@@ -139,31 +138,42 @@ a:hover {
     opacity: 0;
   }
 }
-
+  
 header.hero {
   background: rgba(30, 30, 30, 0.2);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 3.2rem 2rem 2.5rem 2rem;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border-radius: 2rem;
-  margin-bottom: 2.5rem;
+  border-radius: 1.5rem;
+  margin: 1rem auto 2rem auto;
+  max-width: 800px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: box-shadow 0.22s;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: 0.6s cubic-bezier(.6,-0.28,.735,.045);
+}
+
+@media (min-width: 768px) {
+  header.hero {
+    padding: 4rem 2rem 2rem 2rem;
+    border-radius: 2rem;
+    margin: 2rem auto 2.5rem auto;
+  }
 }
 
 .hero h1 {
-  font-size: 2.7rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
   font-weight: 800;
   color: var(--text-main);
+}
+
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 2.7rem;
+  }
 }
 
 .hero p {
