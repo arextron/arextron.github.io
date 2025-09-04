@@ -1,3 +1,4 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -22,7 +23,12 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: ["https://arextron.github.io", "http://localhost:8080", "http://127.0.0.1:8080"],
+  origin: [
+    "https://arextron.github.io", 
+    "http://localhost:8080", 
+    "http://127.0.0.1:8080",
+    "https://arextron-github-io.vercel.app"
+  ],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: false
