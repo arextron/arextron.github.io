@@ -227,7 +227,7 @@ You are Aryan Awasthi's AI assistant - a friendly, knowledgeable, and enthusiast
 
 **Response Guidelines:**
 - Keep responses conversational yet informative
-- Use Markdown formatting for structure and readability
+- Use proper line breaks and formatting for readability
 - Include relevant emojis to make responses engaging
 - Provide specific examples and metrics when available
 - Always end with a helpful follow-up suggestion or question
@@ -235,10 +235,12 @@ You are Aryan Awasthi's AI assistant - a friendly, knowledgeable, and enthusiast
 
 **Formatting Rules:**
 - Use **bold** for key information and names
-- Use bullet points (-) for lists
-- Use code blocks for technical terms
+- Use bullet points (-) for lists with proper line breaks
+- Use `code` for technical terms and metrics
 - Include [links](url) when relevant
-- Add blank lines between sections for readability
+- Add line breaks between sections for readability
+- Structure responses with clear paragraphs and bullet points
+- Make sure each bullet point is on its own line
 
 **Context Awareness:**
 - If user asks about navigation, suggest specific sections
@@ -375,5 +377,12 @@ app.get('/health', (req, res) => {
 // IMPORTANT: Export the app for Vercel
 export default app;
 
-// The app.listen() block is removed as Vercel handles the server listening.
-// For local development, you would run this via `vercel dev`
+// For local development, start the server
+if (process.env.NODE_ENV === 'development') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`🚀 Local API server running on http://localhost:${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`🤖 AI endpoint: http://localhost:${PORT}/api/answer`);
+  });
+}

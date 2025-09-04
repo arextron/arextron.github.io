@@ -311,6 +311,25 @@
     let sessionId = localStorage.getItem('chatSessionId') || 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     localStorage.setItem('chatSessionId', sessionId);
 
+    // Simple markdown renderer for chat messages
+    function renderMarkdown(text) {
+      return text
+        // Convert line breaks to <br>
+        .replace(/\n/g, '<br>')
+        // Convert **bold** to <strong>
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Convert *italic* to <em>
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        // Convert `code` to <code>
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        // Convert [link text](url) to <a href="url">link text</a>
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+        // Convert bullet points - to <li>
+        .replace(/^- (.*?)(?=<br>|$)/gm, '<li>$1</li>')
+        // Wrap consecutive <li> elements in <ul>
+        .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+    }
+
     function appendMessage(who, text, metadata = null) {
       const div = document.createElement('div');
       div.className = `message ${who}`;
@@ -318,7 +337,7 @@
       if (who === 'bot' && metadata && metadata.followUpSuggestions) {
         // Enhanced bot message with follow-up suggestions
         div.innerHTML = `
-          <span>${text}</span>
+          <span>${renderMarkdown(text)}</span>
           <div class="follow-up-suggestions">
             <div class="suggestions-label">💡 Try asking:</div>
             <div class="suggestion-buttons">
@@ -329,7 +348,7 @@
           </div>
         `;
       } else {
-        div.innerHTML = `<span>${text}</span>`;
+        div.innerHTML = `<span>${renderMarkdown(text)}</span>`;
       }
       
       messagesEl.append(div);

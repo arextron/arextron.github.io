@@ -411,6 +411,46 @@ footer {
   color: #ec4899;
 }
 
+/* Enhanced message formatting */
+.message.bot span ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.message.bot span li {
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+}
+
+.message.bot span strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.message.bot span em {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.message.bot span code {
+  background: var(--bg-hero);
+  color: var(--accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.9em;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+}
+
+.message.bot span a {
+  color: var(--accent);
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.message.bot span a:hover {
+  color: #ec4899;
+}
+
 /* Skills Categories */
 .skills-categories {
   display: grid;
