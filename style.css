@@ -187,17 +187,20 @@ header.hero {
   margin-right: auto;
   font-weight: 500;
   min-height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   text-align: center;
   position: relative;
-  border-right: 2px solid #ec4899;
-  animation: blink 1s infinite;
+  white-space: nowrap;
+  padding-left: 0.5rem;
+  min-width: 2rem;
 }
 
 @keyframes typing { from { width: 0; } to { width: 100%; } }
 @keyframes blink { 50% { border-color: transparent; } }
+@keyframes cursorBlink { 
+  0%, 50% { opacity: 1; } 
+  51%, 100% { opacity: 0; } 
+}
 
 .hero-nav {
   margin-top: 2rem;
@@ -291,12 +294,21 @@ p {
   margin-bottom: 0.4rem;
   box-shadow: 0 1px 6px 0 rgba(0,0,0,0.13);
   font-size: 1.06rem;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .skills-list span:hover {
   background: var(--accent-gradient);
   color: #fff;
+}
+
+.skill-tag {
+  cursor: pointer;
+}
+
+.skill-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.3);
 }
 
 .project-grid {
@@ -418,7 +430,10 @@ footer {
 }
 
 .message.bot span {
-  background: #23272f;
+  background: rgba(30, 30, 30, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 
@@ -529,7 +544,10 @@ footer {
 
 /* Enhanced message styling */
 .message.bot span {
-  background: #23272f;
+  background: rgba(30, 30, 30, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
   line-height: 1.6;
 }
