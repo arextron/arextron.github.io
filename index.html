@@ -514,7 +514,7 @@
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => e.isIntersecting && e.target.classList.add('in-view'));
     }, { threshold: 0.2 });
-    document.querySelectorAll('section, #chat-widget').forEach(el => obs.observe(el));
+    document.querySelectorAll('section, #chat-widget, header.hero').forEach(el => obs.observe(el));
 
     // Create space stars
     function createStars() {
@@ -575,14 +575,14 @@
         
         // Simple zoom effect based on scroll position
         if (star.classList.contains('small')) {
-          scale = Math.max(0.3, 1 - (scrollY * 0.001)); // Zoom in/out
+          scale = Math.max(0.1, 1 - (scrollY * 0.0005)); // Zoom in/out - gentler
         } else if (star.classList.contains('medium')) {
-          scale = Math.max(0.3, 1 - (scrollY * 0.0015)); // Zoom in/out faster
+          scale = Math.max(0.1, 1 - (scrollY * 0.0008)); // Zoom in/out faster
         } else if (star.classList.contains('large')) {
-          scale = Math.max(0.3, 1 - (scrollY * 0.002)); // Zoom in/out fastest
+          scale = Math.max(0.1, 1 - (scrollY * 0.001)); // Zoom in/out fastest
         }
         
-        // Apply simple zoom effect
+        // Apply simple zoom effect - no cleanup, stars stay forever
         star.style.transform = `scale(${scale})`;
       });
     }
