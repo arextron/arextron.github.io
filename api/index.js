@@ -8,9 +8,6 @@ import path from 'path';
 import extract from 'pdf-extraction';
 import { fileURLToPath } from 'url';
 import axios from 'axios';
-import logger from './utils/logger.js';
-import { requestLogging, errorLogging, performanceLogging, securityLogging, analyticsLogging } from './middleware/logging.js';
-import { getChatLogsForSession, getRecentChatActivity, getLogStatistics, searchLogs } from './utils/logViewer.js';
 
 // Determine the current directory of this module (api/index.js)
 const __filename = fileURLToPath(import.meta.url);
@@ -21,15 +18,9 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
-// === Logging Middleware Setup ===
-app.use(requestLogging);
-app.use(performanceLogging);
-app.use(securityLogging);
-app.use(analyticsLogging);
-
 // === CORS Setup ===
 app.use((req, res, next) => {
-  logger.debug('CORS Check', { origin: req.headers.origin });
+  console.log('Incoming origin:', req.headers.origin);
   next();
 });
 app.use(cors({
@@ -58,46 +49,42 @@ const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models
 
 // ScreenshotOne API Key
 const SCREENSHOTONE_API_KEY = process.env.SCREENSHOTONE_API_KEY;
-logger.info('Environment Configuration Check', {
-  SCREENSHOTONE_API_KEY_exists: !!SCREENSHOTONE_API_KEY,
-  SCREENSHOTONE_API_KEY_length: SCREENSHOTONE_API_KEY?.length || 0,
-  SCREENSHOTONE_API_KEY_prefix: SCREENSHOTONE_API_KEY?.substring(0, 4) || 'undefined'
-});
+console.log('Environment check:');
+console.log('SCREENSHOTONE_API_KEY exists:', !!SCREENSHOTONE_API_KEY);
+console.log('SCREENSHOTONE_API_KEY length:', SCREENSHOTONE_API_KEY?.length || 0);
+console.log('SCREENSHOTONE_API_KEY first 4 chars:', SCREENSHOTONE_API_KEY?.substring(0, 4) || 'undefined');
 
 // === Screenshot Endpoint ===
 app.get('/api/screenshot', async (req, res) => {
   try {
     const { url } = req.query;
     
-    logger.info('Screenshot Request Received', { url, apiKeyConfigured: !!SCREENSHOTONE_API_KEY });
+    console.log('Screenshot request for URL:', url);
+    console.log('ScreenshotOne API Key configured:', !!SCREENSHOTONE_API_KEY);
     
     if (!url) {
-      logger.warn('Screenshot Request Failed - No URL provided');
+      console.error('No URL provided');
       return res.status(400).json({ error: 'URL parameter is required' });
     }
     
     if (!SCREENSHOTONE_API_KEY) {
-      logger.error('Screenshot Request Failed - API key not configured');
+      console.error('ScreenshotOne API key not configured');
       return res.status(500).json({ error: 'ScreenshotOne API key not configured' });
     }
     
     // Build ScreenshotOne URL with your API key - Optimized for production
     const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(url)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&image_quality=80&block_ads=true&block_cookie_banners=true&block_banners_by_heuristics=true&block_trackers=true&delay=2&timeout=20&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=800&full_page_scroll_delay=1000&reduced_motion=true`;
     
-    logger.external.request('ScreenshotOne', '/take', 'GET', { url });
+    console.log('Calling ScreenshotOne API...');
     
     // Fetch the screenshot
-    const startTime = Date.now();
     const response = await axios.get(screenshotUrl, {
       responseType: 'stream',
       timeout: 15000
     });
-    const responseTime = Date.now() - startTime;
     
-    logger.external.response('ScreenshotOne', '/take', response.status, responseTime, {
-      contentType: response.headers['content-type'],
-      contentLength: response.headers['content-length']
-    });
+    console.log('ScreenshotOne response status:', response.status);
+    console.log('ScreenshotOne response headers:', response.headers);
     
     // Set appropriate headers
     res.set({
@@ -108,10 +95,9 @@ app.get('/api/screenshot', async (req, res) => {
     // Pipe the screenshot to the response
     response.data.pipe(res);
     
-    logger.api.success(req, 'Screenshot generated successfully', { url });
-    
   } catch (error) {
-    logger.external.error('ScreenshotOne', '/take', error, { url: req.query.url });
+    console.error('Screenshot error:', error.message);
+    console.error('Error details:', error.response?.data || error.stack);
     res.status(500).json({ 
       error: 'Failed to generate screenshot',
       details: error.message,
@@ -123,7 +109,6 @@ app.get('/api/screenshot', async (req, res) => {
 // === Test Screenshot Endpoint ===
 app.get('/api/test-screenshot', async (req, res) => {
   try {
-    logger.info('Screenshot Test Endpoint Accessed');
     res.json({
       message: 'Screenshot endpoint is working',
       apiKeyConfigured: !!SCREENSHOTONE_API_KEY,
@@ -131,7 +116,6 @@ app.get('/api/test-screenshot', async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    logger.error('Screenshot Test Endpoint Error', { error: error.message });
     res.status(500).json({ error: error.message });
   }
 });
@@ -140,14 +124,13 @@ app.get('/api/test-screenshot', async (req, res) => {
 app.get('/api/screenshot-test', async (req, res) => {
   try {
     if (!SCREENSHOTONE_API_KEY) {
-      logger.error('Screenshot Test Failed - API key not configured');
       return res.status(500).json({ error: 'API key not configured' });
     }
     
     const testUrl = 'https://google.com';
     const screenshotUrl = `https://api.screenshotone.com/take?url=${encodeURIComponent(testUrl)}&access_key=${SCREENSHOTONE_API_KEY}&viewport_width=1200&viewport_height=800&format=png&full_page=true&full_page_algorithm=by_sections&full_page_scroll_by=500&full_page_scroll_delay=1500&reduced_motion=true`;
     
-    logger.info('Screenshot Test Started', { testUrl, screenshotUrl });
+    console.log('Testing ScreenshotOne with URL:', screenshotUrl);
     
     const response = await axios.get(screenshotUrl, {
       responseType: 'stream',
@@ -157,13 +140,8 @@ app.get('/api/screenshot-test', async (req, res) => {
     res.set('Content-Type', 'image/png');
     response.data.pipe(res);
     
-    logger.info('Screenshot Test Completed Successfully', { testUrl });
-    
   } catch (error) {
-    logger.error('Screenshot Test Error', {
-      error: error.message,
-      response: error.response?.data || 'No response data'
-    });
+    console.error('Screenshot test error:', error.message);
     res.status(500).json({ 
       error: 'Screenshot test failed',
       message: error.message,
@@ -175,12 +153,12 @@ app.get('/api/screenshot-test', async (req, res) => {
 // === Function to test Gemini API connectivity ===
 async function testGeminiAPI() {
   if (!GEMINI_API_KEY) {
-    logger.error('Gemini API Key not configured during startup test');
+    console.error('❌ GEMINI_API_KEY is not set in env. Please check your .env file or Vercel environment variables.');
     return false; // Indicate failure
   }
 
   try {
-    logger.info('Testing Gemini API connectivity...');
+    console.log('Testing Gemini API connectivity...');
     const testPrompt = "Hello"; // A simple prompt to test
     const testPayload = { contents: [{ parts: [{ text: testPrompt }] }] };
 
@@ -191,28 +169,23 @@ async function testGeminiAPI() {
     );
 
     if (response.status === 200 && response.data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-      logger.info('Gemini API connected successfully!');
+      console.log('✅ Gemini API connected successfully!');
       return true; // Indicate success
     } else {
-      logger.error('Gemini API test failed: Unexpected response structure or status', {
-        status: response.status,
-        response: response.data
-      });
+      console.error('❌ Gemini API test failed: Unexpected response structure or status.');
+      console.error('Gemini response:', response.data);
       return false; // Indicate failure
     }
   } catch (err) {
-    logger.error('Error connecting to Gemini API during test', {
-      error: err.response?.data || err.message,
-      status: err.response?.status
-    });
+    console.error('❌ Error connecting to Gemini API during test:', err.response?.data || err.message);
     if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === 403) {
-            logger.error('API Key might be invalid or unauthorized for Gemini 2.0 Flash');
+            console.error('API Key might be invalid or unauthorized for Gemini 2.5 Flash.');
         } else if (err.response.status === 400 && err.response.data?.error?.message?.includes("API key not valid")) {
-            logger.error('GEMINI_API_KEY appears to be invalid');
+            console.error('Your GEMINI_API_KEY appears to be invalid.');
         }
     } else if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
-      logger.error('Please check your internet connection or API endpoint');
+      console.error('Please check your internet connection or API endpoint.');
     }
     return false; // Indicate failure
   }
@@ -226,19 +199,13 @@ async function testGeminiAPI() {
 
   // Load resume.pdf
   try {
-    logger.info('Loading resume file', { path: resumePath });
+    console.log('Looking for resume at:', resumePath);
     const buffer = fs.readFileSync(resumePath); 
     const data = await extract(buffer);
     resumeText = data.text.replace(/\r\n/g, '\n').trim();
-    logger.info('Resume loaded successfully', { 
-      length: resumeText.length,
-      path: resumePath 
-    });
+    console.log(`✅ Loaded resume.pdf, length ${resumeText.length} characters.`);
   } catch (err) {
-    logger.error('Failed to load/parse resume.pdf', {
-      path: resumePath,
-      error: err.message
-    });
+    console.error(`❌ Failed to load/parse resume.pdf at ${resumePath}:`, err.message);
     resumeText = ''; // Ensure it's empty if loading fails
   }
 
@@ -338,19 +305,8 @@ function generateFollowUpSuggestions(intent, question) {
 
 // === API Endpoint (This is the route that Vercel will expose) ===
 app.post('/api/answer', async (req, res) => {
-  const startTime = Date.now();
   const { question, sessionId = 'default' } = req.body;
-  
-  // Log conversation start if this is a new session
-  if (!conversationMemory.has(sessionId)) {
-    logger.chat.conversationStart(sessionId, {
-      userAgent: req.get('User-Agent'),
-      ip: req.ip || req.connection.remoteAddress
-    });
-  }
-  
   if (!question || typeof question !== 'string' || !question.trim()) {
-    logger.warn('Chat Request Failed - No question provided', { sessionId });
     return res.status(400).json({ error: 'No question provided' });
   }
   const q = question.trim();
@@ -358,17 +314,6 @@ app.post('/api/answer', async (req, res) => {
   // Analyze question intent
   const intent = analyzeQuestionIntent(q);
   const conversationContext = getConversationContext(sessionId);
-  
-  // Log user message and intent analysis
-  const primaryIntent = Object.keys(intent).find(key => intent[key]) || 'general';
-  logger.chat.userMessage(sessionId, q, primaryIntent, {
-    messageLength: q.length,
-    hasContext: conversationContext.length > 0,
-    contextLength: conversationContext.length
-  });
-  
-  // Log detailed intent analysis
-  logger.chat.intentAnalysis(sessionId, q, intent, primaryIntent);
   
   // Build conversation history for context
   let contextHistory = '';
@@ -474,16 +419,9 @@ Respond as Aryan's AI assistant:
 
   try {
     if (!GEMINI_API_KEY) { 
-      logger.error('Gemini API Key not configured', { sessionId });
+      console.error('❌ GEMINI_API_KEY not set in env during API call attempt.');
       return res.status(500).json({ error: 'Server misconfiguration: missing API key' });
     }
-    
-    // Log Gemini API call start
-    const geminiStartTime = Date.now();
-    logger.external.request('Gemini', '/generateContent', 'POST', { 
-      sessionId, 
-      promptLength: prompt.length 
-    });
     
     const apiRes = await axios.post(
       GEMINI_ENDPOINT,
@@ -491,31 +429,14 @@ Respond as Aryan's AI assistant:
       { headers: { 'Content-Type': 'application/json' } }
     );
     
-    const geminiResponseTime = Date.now() - geminiStartTime;
     const reply = apiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
-    
-    // Log successful Gemini API call
-    logger.chat.geminiApiCall(sessionId, prompt.length, geminiResponseTime, true);
     
     // Update conversation memory
     updateConversationMemory(sessionId, q, reply);
     
     // Generate follow-up suggestions based on intent
+    const primaryIntent = Object.keys(intent).find(key => intent[key]) || 'general';
     const followUpSuggestions = generateFollowUpSuggestions(primaryIntent, q);
-    
-    // Log follow-up suggestions
-    logger.chat.followUpSuggestions(sessionId, followUpSuggestions.slice(0, 3), {
-      primaryIntent,
-      totalSuggestions: followUpSuggestions.length
-    });
-    
-    // Log AI response
-    const totalResponseTime = Date.now() - startTime;
-    logger.chat.aiResponse(sessionId, reply, totalResponseTime, {
-      intent: primaryIntent,
-      responseLength: reply.length,
-      geminiResponseTime
-    });
     
     // Enhanced response with metadata
     const response = {
@@ -530,22 +451,12 @@ Respond as Aryan's AI assistant:
     
     res.json(response);
   } catch (err) {
-    const totalResponseTime = Date.now() - startTime;
-    const geminiResponseTime = Date.now() - startTime; // Approximate
-    
-    // Log Gemini API error
-    logger.chat.geminiApiCall(sessionId, prompt.length, geminiResponseTime, false, err);
-    logger.chat.error(sessionId, err, { 
-      question: q,
-      intent: primaryIntent,
-      totalResponseTime 
-    });
-    
+    console.error('❌ Error calling Gemini API:', err.response?.data || err.message);
     if (axios.isAxiosError(err) && err.response) {
         if (err.response.status === 403) {
-            logger.error('Gemini API Key might be invalid or unauthorized', { sessionId });
+            console.error('API Key might be invalid or unauthorized for Gemini 2.0 Flash.');
         } else if (err.response.status === 400 && err.response.data?.error?.message?.includes("API key not valid")) {
-            logger.error('Gemini API Key appears to be invalid', { sessionId });
+            console.error('Your GEMINI_API_KEY appears to be invalid.');
         }
     }
     res.status(500).json({ error: 'AI request failed' });
@@ -556,13 +467,6 @@ Respond as Aryan's AI assistant:
 app.get('/api/conversation/:sessionId', (req, res) => {
   const { sessionId } = req.params;
   const context = getConversationContext(sessionId);
-  
-  logger.info('Conversation History Retrieved', {
-    sessionId,
-    messageCount: context.length,
-    ip: req.ip || req.connection.remoteAddress
-  });
-  
   res.json({ 
     sessionId, 
     conversationHistory: context,
@@ -572,13 +476,6 @@ app.get('/api/conversation/:sessionId', (req, res) => {
 
 app.delete('/api/conversation/:sessionId', (req, res) => {
   const { sessionId } = req.params;
-  const context = getConversationContext(sessionId);
-  
-  logger.chat.conversationEnd(sessionId, context.length, 0, {
-    action: 'manual_clear',
-    ip: req.ip || req.connection.remoteAddress
-  });
-  
   conversationMemory.delete(sessionId);
   res.json({ message: 'Conversation cleared', sessionId });
 });
@@ -591,128 +488,20 @@ app.get('/health', (req, res) => {
       conversationMemory: true,
       intentAnalysis: true,
       followUpSuggestions: true,
-      enhancedPrompting: true,
-      logging: true
+      enhancedPrompting: true
     }
   });
-});
-
-// Chat analytics endpoint (for monitoring chat activity)
-app.get('/api/chat/analytics', (req, res) => {
-  try {
-    const analytics = {
-      totalSessions: conversationMemory.size,
-      activeSessions: Array.from(conversationMemory.keys()),
-      sessionStats: Array.from(conversationMemory.entries()).map(([sessionId, messages]) => ({
-        sessionId,
-        messageCount: messages.length,
-        lastActivity: messages[messages.length - 1]?.timestamp,
-        firstActivity: messages[0]?.timestamp
-      })),
-      timestamp: new Date().toISOString()
-    };
-    
-    logger.info('Chat Analytics Retrieved', {
-      totalSessions: analytics.totalSessions,
-      ip: req.ip || req.connection.remoteAddress
-    });
-    
-    res.json(analytics);
-  } catch (error) {
-    logger.error('Chat Analytics Error', { error: error.message });
-    res.status(500).json({ error: 'Failed to retrieve chat analytics' });
-  }
-});
-
-// Log viewing endpoints
-app.get('/api/logs/chat/:sessionId', (req, res) => {
-  try {
-    const { sessionId } = req.params;
-    const { lines = 50 } = req.query;
-    
-    const result = getChatLogsForSession(sessionId, parseInt(lines));
-    
-    if (result.error) {
-      return res.status(500).json({ error: result.error });
-    }
-    
-    logger.info('Chat Logs Retrieved', { sessionId, lines: result.logs.length });
-    res.json(result);
-  } catch (error) {
-    logger.error('Chat Logs Error', { error: error.message });
-    res.status(500).json({ error: 'Failed to retrieve chat logs' });
-  }
-});
-
-app.get('/api/logs/recent', (req, res) => {
-  try {
-    const { hours = 24 } = req.query;
-    const result = getRecentChatActivity(parseInt(hours));
-    
-    if (result.error) {
-      return res.status(500).json({ error: result.error });
-    }
-    
-    logger.info('Recent Chat Activity Retrieved', { hours, logs: result.logs.length });
-    res.json(result);
-  } catch (error) {
-    logger.error('Recent Chat Activity Error', { error: error.message });
-    res.status(500).json({ error: 'Failed to retrieve recent chat activity' });
-  }
-});
-
-app.get('/api/logs/stats', (req, res) => {
-  try {
-    const stats = getLogStatistics();
-    
-    if (stats.error) {
-      return res.status(500).json({ error: stats.error });
-    }
-    
-    logger.info('Log Statistics Retrieved');
-    res.json(stats);
-  } catch (error) {
-    logger.error('Log Statistics Error', { error: error.message });
-    res.status(500).json({ error: 'Failed to retrieve log statistics' });
-  }
-});
-
-app.get('/api/logs/search', (req, res) => {
-  try {
-    const { q: query, type = 'all', limit = 100 } = req.query;
-    
-    if (!query) {
-      return res.status(400).json({ error: 'Query parameter is required' });
-    }
-    
-    const result = searchLogs(query, type, parseInt(limit));
-    
-    if (result.error) {
-      return res.status(500).json({ error: result.error });
-    }
-    
-    logger.info('Log Search Performed', { query, type, results: result.logs.length });
-    res.json(result);
-  } catch (error) {
-    logger.error('Log Search Error', { error: error.message });
-    res.status(500).json({ error: 'Failed to search logs' });
-  }
 });
 
 // IMPORTANT: Export the app for Vercel
 export default app;
 
-// Add error handling middleware
-app.use(errorLogging);
-
 // For local development, start the server
 if (process.env.NODE_ENV === 'development') {
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
-    logger.info('Local API server started', {
-      port: PORT,
-      healthCheck: `http://localhost:${PORT}/health`,
-      aiEndpoint: `http://localhost:${PORT}/api/answer`
-    });
+    console.log(`🚀 Local API server running on http://localhost:${PORT}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`🤖 AI endpoint: http://localhost:${PORT}/api/answer`);
   });
 }
