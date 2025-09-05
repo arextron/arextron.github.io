@@ -1,0 +1,6 @@
+{"SCREENSHOTONE_API_KEY_exists":true,"SCREENSHOTONE_API_KEY_length":14,"SCREENSHOTONE_API_KEY_prefix":"fuUz","level":"info","message":"Environment Configuration Check","service":"aryan-api","timestamp":"2025-09-04 21:28:24"}
+{"level":"info","message":"Loading resume file","path":"/Users/aryanawasthi/GitHub/arextron.github.io/api/resume.pdf","service":"aryan-api","timestamp":"2025-09-04 21:28:24"}
+{"aiEndpoint":"http://localhost:3001/api/answer","healthCheck":"http://localhost:3001/health","level":"info","message":"Local API server started","port":3001,"service":"aryan-api","timestamp":"2025-09-04 21:28:24"}
+{"length":5429,"level":"info","message":"Resume loaded successfully","path":"/Users/aryanawasthi/GitHub/arextron.github.io/api/resume.pdf","service":"aryan-api","timestamp":"2025-09-04 21:28:24"}
+{"level":"info","message":"Testing Gemini API connectivity...","service":"aryan-api","timestamp":"2025-09-04 21:28:24"}
+{"level":"info","message":"Gemini API connected successfully!","service":"aryan-api","timestamp":"2025-09-04 21:28:25"}

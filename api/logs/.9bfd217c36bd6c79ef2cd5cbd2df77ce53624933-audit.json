@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/Users/aryanawasthi/GitHub/arextron.github.io/api/logs/.9bfd217c36bd6c79ef2cd5cbd2df77ce53624933-audit.json",
+    "files": [
+        {
+            "date": 1757035704890,
+            "name": "/Users/aryanawasthi/GitHub/arextron.github.io/api/logs/http-2025-09-04.log",
+            "hash": "498fefa25d38de2e9432ead20950f5b4f1e03a93f4731f793a8f70594c839c14"
+        }
+    ],
+    "hashType": "sha256"
+}
